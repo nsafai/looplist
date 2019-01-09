@@ -1,8 +1,159 @@
+/****************
+     FULLPAGE
+****************/
+body, html {
+  height: 100%;
+}
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-family: 'Comfortaa', "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #f1f2f6;
 }
 
 a {
-  color: #00B7FF;
+  color: var(--grey);
+}
+
+a:hover {
+  color: #2e5f75;
+}
+
+h1 {
+  margin-top: 1em;
+}
+
+.container {
+  margin-top: 3em;
+  margin-bottom: 5em;
+}
+
+input {
+  border:none;
+  padding: 0.75em 1em !important;
+}
+
+/****************
+      FORMS
+****************/
+form {
+  max-width: 66%;
+}
+
+.form-group {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.form-control {
+  border:none; /*to cancel out border from bootstrap*/
+}
+
+.center_div {
+  margin: 0 auto;
+  width: 66%;
+}
+
+.text-left {
+  margin-top: 2em;
+}
+
+/****************
+    NAVBAR
+****************/
+nav {
+  /* height:80px; */
+  padding: 1.16em 3em !important;
+  background-color:var(--gray-dark);
+}
+
+.navbar-brand {
+  text-decoration: none;
+  color: white;
+  outline: 1px solid white;
+  padding: 0.25em 0.5em;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+.navbar-collapse {
+  /* display:flex; */
+  justify-content: flex-end;
+}
+
+.navbar-brand {
+  font-family: 'Pacifico', cursive;
+  font-weight:300;
+}
+
+/***************
+ SIGNUP / LOGIN
+***************/
+.helper-text {
+  color:var(--gray);
+  width:100%;
+  flex-grow:1;
+}
+
+div.helper-text {
+  margin-top: 1em;
+}
+
+/****************
+      FOOTER
+****************/
+body,
+html {
+  // 3 below lines are necessary for footer to stay at bottom, among other things
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+#wrapper {
+  min-height:100%;
+  height: auto !important;
+  height: 100%;
+  display:flex;
+  flex-direction:column;
+  justify-content: space-between;
+}
+
+footer {
+  width: 100%;
+  padding-top: 1.2em;
+  text-align: center;
+  /* height: 6em; */
+  background-color: $black;
+  color: var(--gray);
+}
+
+/****************
+      MOBILE
+****************/
+@media screen and (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+
+  nav {
+    /* height:80px; */
+    padding: 1.16em 1em !important;
+  }
+
+  h1 {
+    margin-top: 0em;
+  }
+
+  .center_div {
+    margin: 0 auto;
+    width: 85%;
+  }
+
+  /****** MOBILE FORMS ******/
+  form {
+    max-width: 100%;
+  }
 }
