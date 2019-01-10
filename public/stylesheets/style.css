@@ -113,6 +113,11 @@ nav {
 .list-container {
   display:grid;
   grid-template-columns: 1fr 3fr;
+  grid-template-rows: 1fr;
+}
+
+.list-container ul {
+  padding:0;
 }
 
 .list-container li {
@@ -125,6 +130,7 @@ nav {
 
 .checklist {
   background-color: white;
+  padding: 1em;
 }
 
 .selected-list {
