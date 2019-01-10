@@ -1,0 +1,10 @@
+<form action="/checklist" method="post" class="center_div checklist">
+  <div class="form-group">
+    <label for="checklist-title" style="display:none">Checklist Name</label>
+    <input type="text" name="title" class="form-control" id="checklist-title" placeholder="Checklist Name (e.g. 'Camping Gear')" value="New Checklist" required>
+  </div>
+  <input type="hidden" name="organizerUserId" class="form-control" id="event-organizer-user-id" value="{{user._id}}">
+  <div class="text-left">
+    <button type="submit" class="butn butn-1">Save</button>
+  </div>
+</form>

@@ -24,10 +24,6 @@ a:hover {
  color: var(--dark-green);
 }
 
-.green {
-  color: var(--green);
-}
-
 h1 {
   margin-top: 1em;
 }
@@ -40,6 +36,14 @@ h1 {
 input {
   border:none;
   padding: 0.75em 1em !important;
+}
+
+li {
+  padding: 0.5em 1em;
+}
+
+.green {
+  color: var(--green);
 }
 
 /****************
@@ -101,6 +105,30 @@ nav {
 
 .nav-item:hover {
   border-bottom: 0.2em solid white;
+}
+
+/***************
+   CHECKLIST
+***************/
+.list-container {
+  display:grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.list-container li {
+  list-style:none;
+}
+
+.list-names {
+  background-color: #b0b5bb;
+}
+
+.checklist {
+  background-color: white;
+}
+
+.selected-list {
+  background-color: #dfdfe0;
 }
 
 /***************

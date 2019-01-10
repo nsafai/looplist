@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 var uniqueValidator = require('mongoose-unique-validator');
 
 const ChecklistSchema = new Schema({
-  name           : { type: String, unique: true, required: true },
+  title          : { type: String, unique: true, required: true },
   ownerUserId    : { type: Number, unique: true, required: true },
   createdAt      : { type: Date, default: Date.now }
 });

@@ -41,7 +41,7 @@ router.post('/login', (req, res, next) => {
     } else {
       // user authenticated correctly
       req.session.user = user;
-      return res.redirect('/');
+      return res.redirect('/lists');
     }
   });
 });
