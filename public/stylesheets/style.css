@@ -1,3 +1,8 @@
+:root {
+  --light-grey: #c3c6c8;
+  --dark-green: #1c622c;
+}
+
 /****************
      FULLPAGE
 ****************/
@@ -12,11 +17,15 @@ body {
 }
 
 a {
-  color: var(--grey);
+  color: var(--green);
 }
 
 a:hover {
-  color: #2e5f75;
+ color: var(--dark-green);
+}
+
+.green {
+  color: var(--green);
 }
 
 h1 {
@@ -70,12 +79,7 @@ nav {
 .navbar-brand {
   text-decoration: none;
   color: white;
-  outline: 1px solid white;
   padding: 0.25em 0.5em;
-}
-
-.navbar a:hover {
-  text-decoration: underline;
 }
 
 .navbar-collapse {
@@ -84,8 +88,19 @@ nav {
 }
 
 .navbar-brand {
-  font-family: 'Pacifico', cursive;
   font-weight:300;
+}
+
+.navbar-brand:hover {
+  color:var(--light-grey);
+}
+
+.nav-link:hover {
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  border-bottom: 0.2em solid white;
 }
 
 /***************
@@ -128,6 +143,51 @@ footer {
   /* height: 6em; */
   background-color: $black;
   color: var(--gray);
+}
+
+/****************
+     BUTTONS
+****************/
+/* inspired from https://tympanus.net/codrops/2013/06/13/creative-button-styles/ */
+.butn {
+    -webkit-transition: none;
+    -moz-transition: none;
+    transition: none;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    cursor: pointer;
+    padding: 16px 40px;
+    display: inline-block;
+    margin: 15px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    outline: none;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.butn-1 {
+    background: var(--green);
+    color: #fff;
+    box-shadow: 0 3px #1c622c;
+    border-radius: 0 0 5px 5px;
+}
+
+.butn-1:hover {
+    box-shadow: 0 5px #1c622c;
+    top: -2px;
+    color:white;
+    text-decoration: none;
+}
+
+.butn-1:active {
+    box-shadow: 0 0 #1c622c;
+    top: 6px;
 }
 
 /****************
