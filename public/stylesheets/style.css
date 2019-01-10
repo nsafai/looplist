@@ -1,41 +1,79 @@
 :root {
   --light-grey: #c3c6c8;
+  --dark-grey: #454748;
   --dark-green: #1c622c;
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --pink: #e83e8c;
+  --red: #dc3545;
+  --orange: #fd7e14;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --input-padding: 1.5em;
 }
 
 /****************
      FULLPAGE
 ****************/
 body, html {
+  /* 3 below lines are necessary for footer to stay at bottom, among other things */
+  padding: 0;
+  margin: 0;
   height: 100%;
 }
 
 body {
-  font-size: 14px;
+  font-size: 16px;
   font-family: 'Comfortaa', "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #f1f2f6;
 }
 
-a {
-  color: var(--green);
+.wrapper {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 5em 1fr 5em;
 }
 
-a:hover {
- color: var(--dark-green);
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  color: var(--green);
+  text-decoration: none;
 }
 
 h1 {
   margin-top: 1em;
-}
-
-.container {
-  margin-top: 3em;
-  margin-bottom: 5em;
+  font-size:2.5em;
 }
 
 input {
-  border:none;
-  padding: 0.75em 1em !important;
+  border: none;
+  padding: var(--input-padding) 0 var(--input-padding) var(--input-padding);
+  font-size: 0.8em;
+  width: calc(100% - var(--input-padding));
 }
 
 li {
@@ -50,7 +88,7 @@ li {
       FORMS
 ****************/
 form {
-  max-width: 66%;
+  margin: 0 auto;
 }
 
 .form-group {
@@ -62,49 +100,68 @@ form {
   border:none; /*to cancel out border from bootstrap*/
 }
 
-.center_div {
-  margin: 0 auto;
-  width: 66%;
-}
-
 .text-left {
-  margin-top: 2em;
+  margin-top: 1em;
 }
 
-/****************
-    NAVBAR
-****************/
-nav {
-  /* height:80px; */
-  padding: 1.16em 3em !important;
-  background-color:var(--gray-dark);
+
+/*****************
+      NAVBAR
+*****************/
+
+.fixed-nav-container, .sticky-nav-container {
+  width: 100%;
+  padding: 0 1.8em;
+  box-sizing: border-box;
+  display: flex;
+  height: var(--navbar-size-desktop);
+  align-items: center;
+  background-color: var(--gray-dark);
+  border-bottom: solid 1px var(--white-grey);
+  margin-bottom: -1px;
+  /* to hide border before scrolling down past the fold*/
 }
 
-.navbar-brand {
+nav a {
   text-decoration: none;
   color: white;
   padding: 0.25em 0.5em;
 }
 
-.navbar-collapse {
-  /* display:flex; */
+nav li {
+  list-style: none;
+}
+
+.left-nav {
+  flex-grow: 1;
+}
+
+.website-logo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: white;
+  font-size: 1.45em;
+}
+
+.right-nav {
+  display: flex;
   justify-content: flex-end;
 }
 
-.navbar-brand {
-  font-weight:300;
-}
-
-.navbar-brand:hover {
-  color:var(--light-grey);
-}
-
-.nav-link:hover {
-  text-decoration: none;
-}
-
-.nav-item:hover {
+.right-nav-item:hover {
   border-bottom: 0.2em solid white;
+}
+
+/***************
+     HOMEPAGE
+***************/
+.hero {
+  margin: 2em;
+}
+
+.main-cta {
+  margin-top:1.5em;
 }
 
 /***************
@@ -147,35 +204,19 @@ nav {
 }
 
 div.helper-text {
-  margin-top: 1em;
+  margin-top: 1.5em;
 }
 
 /****************
       FOOTER
 ****************/
-body,
-html {
-  // 3 below lines are necessary for footer to stay at bottom, among other things
-  padding: 0;
-  margin: 0;
-  height: 100%;
-}
-
-#wrapper {
-  min-height:100%;
-  height: auto !important;
-  height: 100%;
-  display:flex;
-  flex-direction:column;
-  justify-content: space-between;
-}
 
 footer {
+  display:none;
+  bottom:0;
   width: 100%;
   padding-top: 1.2em;
   text-align: center;
-  /* height: 6em; */
-  background-color: $black;
   color: var(--gray);
 }
 
@@ -195,7 +236,6 @@ footer {
     cursor: pointer;
     padding: 16px 40px;
     display: inline-block;
-    margin: 15px 0;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 700;
@@ -234,20 +274,11 @@ footer {
 
   nav {
     /* height:80px; */
-    padding: 1.16em 1em !important;
+    padding: 1.16em 1em;
   }
 
-  h1 {
-    margin-top: 0em;
-  }
-
-  .center_div {
+  . {
     margin: 0 auto;
     width: 85%;
-  }
-
-  /****** MOBILE FORMS ******/
-  form {
-    max-width: 100%;
   }
 }

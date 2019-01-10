@@ -1,17 +1,21 @@
-<nav class="navbar navbar-expand-lg navbar-dark">
-  <a class="navbar-brand" href="/">loop list</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      {{# if user}}
-      <li class="nav-item"><a class="nav-link" href="/new">Create New</a></li>
-      <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-      {{else}}
-      <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
-      <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-      {{/if}}
-    </ul>
+<nav class="fixed-nav-container" id="navbar">
+
+  <div class="left-nav">
+    <a href="/" class="website-logo">loop list</a>
   </div>
+
+  <ul class="right-nav">
+    {{# if user}}
+      <li class="right-right-nav-item">
+        <a class="nav-link" href="/">home</a>
+      </li>
+      <li class="right-nav-item">
+        <a class="nav-link" href="/logout">logout</a>
+      </li>
+    {{else}}
+      <li class="right-nav-item">
+        <a class="nav-link" href="/login">login</a>
+      </li>
+    {{/if}}
+  </ul>
 </nav>

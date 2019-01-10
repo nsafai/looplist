@@ -22,7 +22,7 @@ router.post('/signup', (req, res) => {
     console.log(req);
     req.session.user = user;
     // console.log('req session user is: ' + req.session.user);
-    res.redirect('/');
+    res.redirect('/lists');
   }).catch((err) => {
     // console.log('inside catch err on /signup');
     return res.status(400).send({
