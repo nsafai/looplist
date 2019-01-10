@@ -13,8 +13,8 @@
   --teal: #20c997;
   --cyan: #17a2b8;
   --white: #fff;
-  --gray: #6c757d;
-  --gray-dark: #343a40;
+  --grey: #6c757d;
+  --grey-dark: #343a40;
   --primary: #007bff;
   --secondary: #6c757d;
   --success: #28a745;
@@ -116,7 +116,7 @@ form {
   display: flex;
   height: var(--navbar-size-desktop);
   align-items: center;
-  background-color: var(--gray-dark);
+  background-color: var(--grey-dark);
   border-bottom: solid 1px var(--white-grey);
   margin-bottom: -1px;
   /* to hide border before scrolling down past the fold*/
@@ -129,6 +129,7 @@ nav a {
 }
 
 nav li {
+  padding: 1.5em 0.5em;
   list-style: none;
 }
 
@@ -168,6 +169,8 @@ nav li {
    CHECKLIST
 ***************/
 .list-container {
+  width: 100%;
+  height: 100%;
   display:grid;
   grid-template-columns: 1fr 3fr;
   grid-template-rows: 1fr;
@@ -181,8 +184,17 @@ nav li {
   list-style:none;
 }
 
+.list-title {
+  margin: 2em 0 0.5em 1em;
+}
+
 .list-names {
   background-color: #b0b5bb;
+}
+
+.list-names ul li {
+  /* padding: 0.5em 0; */
+  padding: 1em;
 }
 
 .checklist {
@@ -198,7 +210,7 @@ nav li {
  SIGNUP / LOGIN
 ***************/
 .helper-text {
-  color:var(--gray);
+  color:var(--grey);
   width:100%;
   flex-grow:1;
 }
@@ -212,12 +224,13 @@ div.helper-text {
 ****************/
 
 footer {
-  display:none;
+  /* display:none; */
   bottom:0;
   width: 100%;
   padding-top: 1.2em;
   text-align: center;
-  color: var(--gray);
+  background-color: var(--dark-grey);
+  color: var(--light-grey);
 }
 
 /****************
