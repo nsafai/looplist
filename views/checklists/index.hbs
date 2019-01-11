@@ -19,7 +19,7 @@
       <div class="to-do-and-chkbox">
         <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
         <!-- tabindex -1 so tab doesn't ever select checkbox -->
-        <input class='to-do-input' value="Tent" autofocus>
+        <input class='to-do-input' value="Tent">
       </div>
       <div class="to-do-and-chkbox">
         <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
@@ -32,3 +32,16 @@
     </ul>
   </div>
 </div>
+
+
+<script type="text/javascript">
+  $(".to-do-ul").on('keyup', function(e) {
+    if (e.keyCode == 13) {
+      console.log('ya!');
+      $('.to-do-ul').append(`<div class="to-do-and-chkbox">
+        <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
+        <input class='to-do-input' value="" autofocus>
+      </div>`);
+    }
+  });
+</script>
