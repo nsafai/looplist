@@ -314,15 +314,23 @@ nav li {
 }
 
 .fa-circle {
-  color:var(--grey)
+  color: var(--grey);
 }
 
 .fa-check-circle {
-  color: var(--green)
+  color: var(--green);
 }
 
 .new-todo-link {
+  color: var(--grey);
   cursor: pointer;
+  margin-left: 0.2em; /* accounting for diff font size */
+
+}
+
+.fas.fa-plus {
+  font-size: 1.2em;
+  margin-right:1.25em;
 }
 
 /***************
