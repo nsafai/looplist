@@ -2,6 +2,8 @@
 
 A productivity tool. It lets users create checklists that they use on a regular basis and easily reset the checklist.
 
+![Screenshot of Loop List v1][looplist-screenshot.png]
+
 ## Getting Started
 
 To run this on your machine:
@@ -13,11 +15,9 @@ To run this on your machine:
 
 ## Deployment
 
-This product will be deployed via Heroku. A link will be provided here shortly.
+This product will be deployed via Heroku. A link to the live project will be provided here shortly.
 
-## Built With
-
-### Technologies
+## Technologies
 
 * bcryptjs
 * cookie-parser
