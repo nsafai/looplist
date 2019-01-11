@@ -3,7 +3,7 @@
     <h3 class='list-title'>My Lists</h3>
     <ul>
       <li>
-        <a href="" class='new-list-link'><i class="fas fa-plus-circle"></i>
+        <a href="" class='new-list-link' onClick="createList()"><i class="fas fa-plus-circle"></i>
           <span class='underline-on-hover'> New List</span>
         </a>
       </li>
@@ -20,7 +20,7 @@
     <ul class='to-do-ul'>
       <div class="to-do-and-chkbox">
         <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
-        <!-- tabindex -1 so tab doesn't ever select checkbox -->
+        <!-- tabindex -1 so tab button skips checkboxes and cycles input fields -->
         <input class='to-do-input' value="Tent">
       </div>
       <div class="to-do-and-chkbox">
@@ -28,8 +28,16 @@
         <input class='to-do-input' value="Canopy">
       </div>
       <div class="to-do-and-chkbox">
-        <a class="chkbox far fa-check-circle" href="" tabindex="-1"></a>
+        <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
         <input class='to-do-input' value="Mattress">
+      </div>
+      <div class="to-do-and-chkbox">
+        <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
+        <input class='to-do-input' value="Hammer">
+      </div>
+      <div class="to-do-and-chkbox">
+        <a class="chkbox far fa-check-circle" href="" tabindex="-1"></a>
+        <input class='to-do-input' value="Insect Spray">
       </div>
     </ul>
     <a class='new-todo-link'><i class="fas fa-plus"></i>
@@ -38,35 +46,9 @@
   </div>
 </div>
 
+<script src="/javascripts/checklist.js"></script>
 
+</script>
 <script type="text/javascript">
-  $(".to-do-ul").on('keyup', function(e) {
-    if (e.keyCode == 13) {
-      console.log('pressed enter!');
-      $('.to-do-ul').append(`<div class="to-do-and-chkbox">
-        <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
-        <input class='to-do-input' value="">
-      </div>`);
-      $(".to-do-input:last-of-type").focus();
-    }
-  });
 
-  $(".new-todo-link").on('click', function(e) {
-    console.log('clicked new todo!');
-    $('.to-do-ul').append(`<div class="to-do-and-chkbox">
-        <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
-        <input class='to-do-input' value="">
-      </div>`);
-    $(".to-do-input:last-of-type").focus();
-  });
-
-  $(".to-do-ul").on('keyup', function(e) {
-    if (e.keyCode == 8) {
-      // someone pressed backspace
-      if (document.activeElement.value == "") {
-        // todo item is empty, user is trying to delete that field
-        document.activeElement.parentElement.remove();
-      }
-    }
-  });
 </script>
