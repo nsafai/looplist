@@ -92,6 +92,14 @@ li {
   text-decoration: underline;
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus,
+a:focus {
+    outline: none; /* to stop blue outline */
+}
+
 /****************
      BUTTONS
 ****************/
@@ -121,7 +129,7 @@ li {
     background: var(--green);
     color: #fff;
     box-shadow: 0 3px #1c622c;
-    border-radius: 0 0 5px 5px;
+    border-radius: 3px 3px 5px 5px;
 }
 
 .butn-1:hover {
@@ -287,7 +295,7 @@ nav li {
   border: 0;
   padding: 0.66em 0;
   font-size:1.2em;
-  caret-color: var(--green);
+  caret-color: var(--dark-green);
 }
 
 .to-do-input:active {
@@ -300,9 +308,17 @@ nav li {
   outline-width: 0;
 }
 
-.chk {
+.chkbox {
   font-size:1.5em;
   margin-right: 1em;
+}
+
+.fa-circle {
+  color:var(--grey)
+}
+
+.fa-check-circle {
+  color: var(--green)
 }
 
 /***************
