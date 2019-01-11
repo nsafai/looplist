@@ -47,14 +47,26 @@
         <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
         <input class='to-do-input' value="" autofocus>
       </div>`);
+      $(".to-do-input:last-of-type").focus();
     }
   });
+
   $(".new-todo-link").on('click', function(e) {
-      console.log('clicked new todo!');
-      $('.to-do-ul').append(`<div class="to-do-and-chkbox">
+    console.log('clicked new todo!');
+    $('.to-do-ul').append(`<div class="to-do-and-chkbox">
         <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
         <input class='to-do-input' value="" autofocus>
       </div>`);
+    $(".to-do-input:last-of-type").focus();
   });
 
+  $(".to-do-ul").on('keyup', function(e) {
+    if (e.keyCode == 8) {
+      // someone pressed backspace
+      if (document.activeElement.value == "") {
+        // todo item is empty, user is trying to delete that field
+        document.activeElement.parentElement.remove();
+      }
+    }
+  });
 </script>
