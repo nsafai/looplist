@@ -15,13 +15,20 @@
       <h2>Camping</h2>
       <a class="reset butn butn-1" href="">Reset</a>
     </div>
-    <ul>
-      <li><a class="chk far fa-circle"> </a> Tent</li>
-      <li><a class="chk far fa-circle"> </a> Mattress</li>
-      <li><a class="chk far fa-circle"> </a> Pillow</li>
-      <li><a class="chk far fa-circle"> </a> Water</li>
-      <li><a class="chk far fa-check-circle"> </a> Food</li>
-      <li><a class="chk far fa-check-circle"> </a> Canopy</li>
+    <ul class='to-do-ul'>
+      <div class="to-do-and-chkbox">
+        <a class="chk far fa-circle" href="" tabindex="-1"></a>
+        <!-- tabindex -1 so tab doesn't ever select checkbox -->
+        <input class='to-do-input' autofocus>
+      </div>
+      <div class="to-do-and-chkbox">
+        <a class="chk far fa-circle" href="" tabindex="-1"></a>
+        <input class='to-do-input'>
+      </div>
+      <div class="to-do-and-chkbox">
+        <a class="chk far fa-check-circle" href="" tabindex="-1"></a>
+        <input class='to-do-input'>
+      </div>
     </ul>
   </div>
 </div>

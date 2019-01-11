@@ -174,7 +174,6 @@ form {
 nav a {
   text-decoration: none;
   color: white;
-  padding: 0.25em 0.5em;
 }
 
 nav li {
@@ -278,12 +277,32 @@ nav li {
   padding: 1em 2em;
 }
 
-.checklist ul li {
-  padding: 1em 0;
+.to-do-and-chkbox{
+  display: flex;
+  align-items: center;
+}
+
+.to-do-input {
+  background-color:var(--light-grey);
+  border: 0;
+  padding: 0.66em 0;
+  font-size:1.2em;
+  caret-color: var(--green);
+}
+
+.to-do-input:active {
+  transition: 0.4s;
+}
+
+.to-do-input:focus {
+  width: 100%;
+  transition: 0.4s;
+  outline-width: 0;
 }
 
 .chk {
-  margin-right: 0.7em;
+  font-size:1.5em;
+  margin-right: 1em;
 }
 
 /***************
@@ -327,5 +346,16 @@ footer {
   . {
     margin: 0 auto;
     width: 85%;
+  }
+
+  .list-title-and-reset-btn {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-start; */
+    align-items: flex-start;
+  }
+
+  .reset {
+    margin-left:0;
   }
 }
