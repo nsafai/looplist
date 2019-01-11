@@ -1,5 +1,5 @@
 :root {
-  --light-grey: #c3c6c8;
+  --light-grey: #fcfbfa;
   --dark-grey: #454748;
   --dark-green: #1c622c;
   --blue: #007bff;
@@ -50,7 +50,7 @@ body {
 .wrapper {
   height: 100%;
   display: grid;
-  grid-template-rows: 5em 1fr 5em;
+  grid-template-rows: 5em 1fr 3em;
 }
 
 main {
@@ -69,6 +69,10 @@ h1 {
   font-size:2.5em;
 }
 
+h2 {
+  font-size:2em;
+}
+
 input {
   border: none;
   padding: var(--input-padding) 0 var(--input-padding) var(--input-padding);
@@ -82,6 +86,54 @@ li {
 
 .green {
   color: var(--green);
+}
+
+.underline-on-hover:hover {
+  text-decoration: underline;
+}
+
+/****************
+     BUTTONS
+****************/
+/* inspired from https://tympanus.net/codrops/2013/06/13/creative-button-styles/ */
+.butn {
+    -webkit-transition: none;
+    -moz-transition: none;
+    transition: none;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    cursor: pointer;
+    padding: 1em 3em;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    outline: none;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.butn-1 {
+    background: var(--green);
+    color: #fff;
+    box-shadow: 0 3px #1c622c;
+    border-radius: 0 0 5px 5px;
+}
+
+.butn-1:hover {
+    box-shadow: 0 5px #1c622c;
+    top: -2px;
+    color:white;
+    text-decoration: none;
+}
+
+.butn-1:active {
+    box-shadow: 0 0 #1c622c;
+    top: 6px;
 }
 
 /****************
@@ -117,9 +169,6 @@ form {
   height: var(--navbar-size-desktop);
   align-items: center;
   background-color: var(--grey-dark);
-  border-bottom: solid 1px var(--white-grey);
-  margin-bottom: -1px;
-  /* to hide border before scrolling down past the fold*/
 }
 
 nav a {
@@ -176,6 +225,8 @@ nav li {
   grid-template-rows: 1fr;
 }
 
+/* LEFT PANE CHECKLIST */
+
 .list-container ul {
   padding:0;
 }
@@ -188,22 +239,51 @@ nav li {
   margin: 2em 0 0.5em 1em;
 }
 
+.new-list-link {
+  color: var(--dark-grey);
+  font-weight: bold;
+}
+
 .list-names {
   background-color: #b0b5bb;
 }
 
 .list-names ul li {
-  /* padding: 0.5em 0; */
-  padding: 1em;
-}
-
-.checklist {
-  background-color: white;
   padding: 1em;
 }
 
 .selected-list {
-  background-color: #dfdfe0;
+  background-color: var(--light-grey);
+}
+
+/* RIGHT PANE CHECKLIST */
+
+.checklist {
+  background-color: var(--light-grey);
+  padding: 2em;
+  padding-left: 3em;
+}
+
+.list-title-and-reset-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reset {
+  margin-left:1.5em;
+  display: flex;
+  align-items: center;
+  max-height: 1em;
+  padding: 1em 2em;
+}
+
+.checklist ul li {
+  padding: 1em 0;
+}
+
+.chk {
+  margin-right: 0.7em;
 }
 
 /***************
@@ -224,57 +304,11 @@ div.helper-text {
 ****************/
 
 footer {
-  /* display:none; */
   bottom:0;
   width: 100%;
-  padding-top: 1.2em;
   text-align: center;
   background-color: var(--dark-grey);
   color: var(--light-grey);
-}
-
-/****************
-     BUTTONS
-****************/
-/* inspired from https://tympanus.net/codrops/2013/06/13/creative-button-styles/ */
-.butn {
-    -webkit-transition: none;
-    -moz-transition: none;
-    transition: none;
-    border: none;
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-    background: none;
-    cursor: pointer;
-    padding: 16px 40px;
-    display: inline-block;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 700;
-    outline: none;
-    position: relative;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-}
-.butn-1 {
-    background: var(--green);
-    color: #fff;
-    box-shadow: 0 3px #1c622c;
-    border-radius: 0 0 5px 5px;
-}
-
-.butn-1:hover {
-    box-shadow: 0 5px #1c622c;
-    top: -2px;
-    color:white;
-    text-decoration: none;
-}
-
-.butn-1:active {
-    box-shadow: 0 0 #1c622c;
-    top: 6px;
 }
 
 /****************
