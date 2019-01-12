@@ -3,22 +3,26 @@
 ************************/
 
 function createList() {
-  alert("clicked createList!");
-  // axios.post('/save-vote', {
-  //   yesVote: propId
-  // }).then(res => {
-  //   const yesButton = document.getElementById(propId + '-yes');
-  //   yesButton.classList.add("prop-voted");
-  //   yesButton.innerHTML = 'Undo <strong>YES</strong>';
-  //   yesButton.setAttribute("onClick", `undoYesVote('${propId}')`);
-  //
-  //   const noButton = document.getElementById(propId + '-no');
-  //   noButton.classList.remove("prop-voted");
-  //   noButton.innerHTML = 'Save <strong>NO</strong>';
-  //   noButton.setAttribute("onClick", `saveNoVote('${propId}')`);
-  // }).catch(error => {
-  //   console.error(error);
-  // });
+  const ul = document.getElementById("ul-of-list-names");
+  const li = document.createElement("li");
+  var prevSelected = document.getElementsByClassName('selected-list')[0];
+  // console.log(prevSelected.classList);
+
+  axios.post('/lists', {}).then(res => {
+
+    newList = res.data;
+    // console.log(newList);
+
+    li.setAttribute("class", "selected-list left-list-name");
+    li.setAttribute("id", newList._id);
+    li.appendChild(document.createTextNode("New List"));
+    prevSelected.classList.remove("selected-list");
+    ul.insertBefore(li, ul.firstChild);
+
+  }).catch(error => {
+    console.error(error);
+  });
+
 }
 
 /************************

@@ -248,7 +248,13 @@ nav li {
 
 .new-list-link {
   color: var(--dark-grey);
-  font-weight: bold;
+  border: none;
+  background: none;
+  font-size: 1em;
+  padding: 1em 0.5em 0em 1em;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .list-names {
