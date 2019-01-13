@@ -32,9 +32,8 @@ router.get('/lists', auth.requireLogin, (req, res, next) => {
 
 // POST/CREATE Checklist
 router.post('/lists', function(req, res, next) {
-  // console.log('user id: ' + res.locals.user._id);
-  // console.log('req body: ' + req.body);
   currentUserId = res.locals.user._id;
+
   let list = new Checklist({
     title: 'New List',
     ownerUserId: currentUserId
@@ -56,8 +55,6 @@ router.delete('/lists', function(req,res, next) {
   console.log('got a delete request with: ' + listId);
   Checklist.findByIdAndRemove(listId, function(err){
     if(err){res.send(err);}
-    res.send('Got a DELETE request at /user');
-    // return res.render('/lists');
   });
 });
 

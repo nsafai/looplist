@@ -25,7 +25,7 @@
             <a class="chkbox far fa-circle" href="" onClick="" tabindex="-1"></a>
             <!-- tabindex -1 so tab button skips checkboxes and cycles input fields -->
           {{/if}}
-          <input class='to-do-input' value="{{todo.name}}" todoid="{{todo._id}}">
+          <input class='to-do-input' value="{{todo.name}}" id="{{todo._id}}" todoid="{{todo._id}}" oninput="setTimeout(saveTodo('{{todo._id}}'), 500)">
         </div>
       {{/each}}
     </ul>
@@ -40,8 +40,4 @@
 </div>
 
 <script src="/javascripts/checklist.js"></script>
-
-</script>
-<script type="text/javascript">
-
-</script>
+<script src="/javascripts/todo.js"></script>
