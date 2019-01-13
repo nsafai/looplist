@@ -269,6 +269,11 @@ nav li {
   background-color: var(--light-grey);
 }
 
+.left-list-name, .new-list-link {
+  /* white-space: nowrap;
+  overflow: auto; */
+}
+
 /* RIGHT PANE CHECKLIST */
 
 .checklist {
@@ -344,8 +349,8 @@ nav li {
   display:flex;
   justify-content: center;
   position:absolute;
-  bottom:1.2em;
-  right:1em;
+  bottom:1.5em;
+  right:2em;
   color:var(--grey);
   cursor: pointer;
 }
@@ -405,6 +410,10 @@ footer {
   }
 
   .reset {
-    margin-left:0;
+    margin-left: 0;
+  }
+
+  .left-list-name, .new-list-link {
+    padding: 0.2em;
   }
 }

@@ -35,12 +35,22 @@ function createList() {
       REMOVING LISTS
 ************************/
 function deleteList() {
-
+  currentListId = document.getElementById('current-list').getAttribute("listid")
+  // console.log(currentList);
   axios.delete('/lists', {
     params: {
-      id: '5c3a6af02b47bc6fd794f581'
+      id: currentListId
     }
-  })
+  }).then(res => {
+    // console.log(res);
+    // res.redirect('/lists');
+    window.location = "/lists";
+    // newList = res.data;
+    // console.log(newList);
+
+  }).catch(error => {
+    console.error(error);
+  });
 }
 
 /************************
@@ -70,20 +80,20 @@ $(".new-todo-link").on('click', function(e) {
 });
 
 function createTodo() {
-  currentListId = document.getElementById('default-list').getAttribute("listid");
-axios.post('/todos', {
-  currentListId: currentListId
-}).then(res => {
-  // console.log(res);
-  todo = res.data;
-  $(".to-do-input:last-of-type").attr('todoid', todo._id);
+  currentListId = document.getElementById('current-list').getAttribute("listid");
+  axios.post('/todos', {
+    currentListId: currentListId
+  }).then(res => {
+    // console.log(res);
+    todo = res.data;
+    $(".to-do-input:last-of-type").attr('todoid', todo._id);
 
-  // newList = res.data;
-  // console.log(newList);
+    // newList = res.data;
+    // console.log(newList);
 
-}).catch(error => {
-  console.error(error);
-});
+  }).catch(error => {
+    console.error(error);
+  });
 }
 
 /************************

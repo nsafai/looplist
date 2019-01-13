@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Checklist = require('../models/checklist');
+const Todo = require('../models/todo');
 const auth = require('./helpers/auth');
 
 // GET ALL Checklists
@@ -9,15 +10,23 @@ router.get('/lists', auth.requireLogin, (req, res, next) => {
     if (err) {
       console.error(err);
     } else {
-      const defaultList = lists[0];
-      console.log(defaultList);
-      res.render('checklists/index', {
-        defaultList: defaultList,
-        lists: lists
+      const currentList = lists[0]; // default
+
+      Todo.find({
+        '_id': {
+          $in: currentList.todoItems
+        }
+      }, function(err, currentListTodos) {
+        console.log(currentListTodos);
+        res.render('checklists/index', {
+          currentList: currentList,
+          currentListTodos: currentListTodos,
+          lists: lists
+        });
       });
     }
   }).sort([
-    ['createdAt', 1]
+    ['createdAt', 1] // change this to change how it sorts
   ]);
 });
 
@@ -48,6 +57,7 @@ router.delete('/lists', function(req,res, next) {
   Checklist.findByIdAndRemove(listId, function(err){
     if(err){res.send(err);}
     res.send('Got a DELETE request at /user');
+    // return res.render('/lists');
   });
 });
 

@@ -12,31 +12,22 @@
   </div>
   <div class="checklist">
     <div class='list-title-and-reset-btn'>
-      <h2 id="default-list" listid="{{defaultList._id}}">{{defaultList.title}}</h2>
+      <h2 id="current-list" listid="{{currentList._id}}">{{currentList.title}}</h2>
       <a class="reset butn butn-1" href="">Reset</a>
     </div>
     <ul class='to-do-ul'>
-      <div class="to-do-and-chkbox">
-        <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
-        <!-- tabindex -1 so tab button skips checkboxes and cycles input fields -->
-        <input class='to-do-input' value="Tent">
-      </div>
-      <div class="to-do-and-chkbox">
-        <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
-        <input class='to-do-input' value="Canopy">
-      </div>
-      <div class="to-do-and-chkbox">
-        <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
-        <input class='to-do-input' value="Mattress">
-      </div>
-      <div class="to-do-and-chkbox">
-        <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
-        <input class='to-do-input' value="Hammer">
-      </div>
-      <div class="to-do-and-chkbox">
-        <a class="chkbox far fa-check-circle" href="" tabindex="-1"></a>
-        <input class='to-do-input' value="Insect Spray">
-      </div>
+      {{#each currentListTodos as |todo|}}
+        <div class="to-do-and-chkbox">
+          {{#if todo.completed}}
+            <a class="chkbox far fa-check-circle" href="" onClick="" tabindex="-1"></a>
+            <!-- tabindex -1 so tab button skips checkboxes and cycles input fields -->
+          {{else}}
+            <a class="chkbox far fa-circle" href="" onClick="" tabindex="-1"></a>
+            <!-- tabindex -1 so tab button skips checkboxes and cycles input fields -->
+          {{/if}}
+          <input class='to-do-input' value="{{todo.name}}" todoid="{{todo._id}}">
+        </div>
+      {{/each}}
     </ul>
     <a class='new-todo-link'><i class="fas fa-plus"></i>
       <span class='underline-on-hover'>Add items</span>
