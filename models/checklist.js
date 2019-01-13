@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const ChecklistSchema = new Schema({
   title          : { type: String, required: true },
   ownerUserId    : { type: String, required: true },
+  todoItems      : { type: Array },
   createdAt      : { type: Date, default: Date.now }
 });
 

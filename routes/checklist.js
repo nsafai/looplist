@@ -5,61 +5,51 @@ const auth = require('./helpers/auth');
 
 // GET ALL Checklists
 router.get('/lists', auth.requireLogin, (req, res, next) => {
-  res.render('checklists/index');
+  Checklist.find({}, function(err, lists) {
+    if (err) {
+      console.error(err);
+    } else {
+      const defaultList = lists[0];
+      console.log(defaultList);
+      res.render('checklists/index', {
+        defaultList: defaultList,
+        lists: lists
+      });
+    }
+  }).sort([
+    ['createdAt', 1]
+  ]);
 });
 
 // POST/CREATE Checklist
 router.post('/lists', function(req, res, next) {
-  console.log('user id: ' + res.locals.user._id);
-  console.log('req body: ' + req.body);
+  // console.log('user id: ' + res.locals.user._id);
+  // console.log('req body: ' + req.body);
   currentUserId = res.locals.user._id;
-  let list = new Checklist({ title: 'New List', ownerUserId: currentUserId });
+  let list = new Checklist({
+    title: 'New List',
+    ownerUserId: currentUserId
+  });
   console.log('list: ' + list);
   list.save(function(err, list) {
     if (err) {
       console.error(err)
     };
     return res.send(list);
-    // return list._id;
-    // return res.redirect('/lists');
   });
 });
-//
-// /* GET EDIT prop form. */
-// router.get('/admin/props/:id/edit', function(req, res, next) {
-//   Proposition.findById(req.params.id, function(err, prop) {
-//     if (err) {
-//       console.error(err)
-//     };
-//     res.render('props/edit', {
-//       prop: prop
-//     });
-//   });
-// });
-//
-// // PUT/EDIT prop
-// router.post('/admin/props/:id', function(req, res, next) {
-//   //findByIdAndUpdate
-//   //update with request object.body
-//   let updatedProp = new Proposition(req.body);
-//
-//   Proposition.findByIdAndUpdate(
-//     req.params.id, {
-//       $set: {
-//         name: updatedProp.name,
-//         summary: updatedProp.summary,
-//         pros: updatedProp.pros,
-//         cons: updatedProp.cons,
-//         readMoreUrl: updatedProp.readMoreUrl,
-//         area: updatedProp.area
-//       }
-//     },
-//     function(err, prop) {
-//       if (err) {
-//         console.error(err)
-//       };
-//       res.redirect('/admin');
-//     });
-// });
+
+// PUT / EDIT / UPDATE checklist
+
+// DELETE checklist
+router.delete('/lists', function(req,res, next) {
+  listId = req.query.id;
+  console.log('got a delete request with: ' + listId);
+  Checklist.findByIdAndRemove(listId, function(err){
+    if(err){res.send(err);}
+    res.send('Got a DELETE request at /user');
+  });
+});
+
 
 module.exports = router;

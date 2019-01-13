@@ -1,4 +1,10 @@
 /************************
+  SETUP/SELECT TOP LIST
+************************/
+
+$('#ul-of-list-names li:first').addClass('selected-list');
+
+/************************
       ADDING LISTS
 ************************/
 
@@ -7,7 +13,6 @@ function createList() {
   const li = document.createElement("li");
   var prevSelected = document.getElementsByClassName('selected-list')[0];
   // console.log(prevSelected.classList);
-
   axios.post('/lists', {}).then(res => {
 
     newList = res.data;
@@ -16,13 +21,26 @@ function createList() {
     li.setAttribute("class", "selected-list left-list-name");
     li.setAttribute("id", newList._id);
     li.appendChild(document.createTextNode("New List"));
-    prevSelected.classList.remove("selected-list");
+    if (prevSelected) {
+      prevSelected.classList.remove("selected-list");
+    }
     ul.insertBefore(li, ul.firstChild);
 
   }).catch(error => {
     console.error(error);
   });
+}
 
+/************************
+      REMOVING LISTS
+************************/
+function deleteList() {
+
+  axios.delete('/lists', {
+    params: {
+      id: '5c3a6af02b47bc6fd794f581'
+    }
+  })
 }
 
 /************************
@@ -37,6 +55,7 @@ $(".to-do-ul").on('keyup', function(e) {
       <input class='to-do-input' value="">
     </div>`);
     $(".to-do-input:last-of-type").focus();
+    createTodo()
   }
 });
 
@@ -47,7 +66,25 @@ $(".new-todo-link").on('click', function(e) {
       <input class='to-do-input' value="">
     </div>`);
   $(".to-do-input:last-of-type").focus();
+  createTodo()
 });
+
+function createTodo() {
+  currentListId = document.getElementById('default-list').getAttribute("listid");
+axios.post('/todos', {
+  currentListId: currentListId
+}).then(res => {
+  // console.log(res);
+  todo = res.data;
+  $(".to-do-input:last-of-type").attr('todoid', todo._id);
+
+  // newList = res.data;
+  // console.log(newList);
+
+}).catch(error => {
+  console.error(error);
+});
+}
 
 /************************
     REMOVING TO-DO'S

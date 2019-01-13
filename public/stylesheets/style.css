@@ -275,6 +275,7 @@ nav li {
   background-color: var(--light-grey);
   padding: 2em;
   padding-left: 3em;
+  position:relative;
 }
 
 .list-title-and-reset-btn {
@@ -337,6 +338,20 @@ nav li {
 .fas.fa-plus {
   font-size: 1.2em;
   margin-right:1.25em;
+}
+
+.delete-list {
+  display:flex;
+  justify-content: center;
+  position:absolute;
+  bottom:1.2em;
+  right:1em;
+  color:var(--grey);
+  cursor: pointer;
+}
+
+.delete-list .fa-trash-alt {
+  margin-left:0.5em;
 }
 
 /***************
