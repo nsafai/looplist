@@ -1,5 +1,12 @@
 <div class="flex-stack">
-  <h1>{{message}}</h1>
-  <h2>{{error.status}}</h2>
+  <h2>{{message}}</h2>
+  <h3>{{error.status}}</h3>
   <!-- <pre>{{error.stack}}</pre> -->
+  <a onclick="goBack()" class="butn butn-1 main-cta">Go Back</a>
 </div>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>

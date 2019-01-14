@@ -106,9 +106,12 @@ a:focus {
 .flex-stack {
   display:flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding:2em;
 }
 
-/* inspired from https://tympanus.net/codrops/2013/06/13/creative-button-styles/ */
+/* butn inspired from https://tympanus.net/codrops/2013/06/13/creative-button-styles/ */
 .butn {
     -webkit-transition: none;
     -moz-transition: none;
@@ -256,7 +259,7 @@ nav li {
   border: none;
   background: none;
   font-size: 1em;
-  padding: 1em 0.5em 0em 1em;
+  padding: 1em 1em 0em 1em;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
