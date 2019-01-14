@@ -25,7 +25,7 @@ function createTodo(sender) {
     const todoHTML = `<div class="to-do-and-chkbox">
         <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
         <input class='to-do-input' value="" id="${todo._id}"
-        todoid="${todo._id}" oninput="setTimeout(saveTodo('{{todo._id}}'), 500)">
+        todoid="${todo._id}" oninput="setTimeout(saveTodo('${todo._id}'), 500)">
       </div>`
     if (sender == 'button') {
       $('.to-do-ul').append(todoHTML);
@@ -45,21 +45,16 @@ function createTodo(sender) {
 ************************/
 
 $(".to-do-ul").on('keyup', function(e) {
-  if (e.keyCode == 8) {
-    // someone pressed backspace
-    if (document.activeElement.value == "") {
-      // todo item is empty, user is trying to delete that field
+  if (document.activeElement.value == "") {
+    // todo item is empty, user may be trying to delete that field
+    if (e.keyCode == 8) { // someone pressed backspace
       let todoId = document.activeElement.getAttribute("todoid");
       let activeInput = $(`#${todoId}`);
-      console.log(activeInput.parent().prev().find('.to-do-input'));
-      // activeInput = document.activeElement;
-      // todoId = activeInput.getAttribute("todoid");
       prevInput = activeInput.parent().prev().find('.to-do-input');
-      // activeInput.closest('.to-do-and-chkbox').prev('.to-do-input').find('.to-do-input');
-      // activeInput.parent().prev('.to-do-and-chkbox').focus();
       deleteTodo(todoId);
       document.activeElement.parentElement.remove();
       prevInput.focus().val(prevInput.val());
+      // ^ by focusing then resetting value, cursor is at end of text field
     }
   }
 });
