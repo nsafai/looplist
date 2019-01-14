@@ -51,7 +51,9 @@ router.get('/lists/:id', auth.requireLogin, (req, res, next) => {
       if (err) {
         console.error(err)
       };
-      Checklist.find({}, function(err, lists) {
+      Checklist.find({
+          ownerUserId: res.locals.user._id
+        }, function(err, lists) {
         if (err) { console.error(err) }
         else {
           Todo.find({'_id': {
