@@ -80,8 +80,21 @@ router.post('/reset-all-todos', auth.requireLogin, function(req, res, next) {
   checklistId = req.body.checklistId;
   Checklist.findById(checklistId, function(err, checklist){
     if(err) { res.send(err) }
-    todosToReset = checklist.todoItems;
-    // TODO: FIND TODOS with ARRAY todosToReset and set completed = false
+    let todosArray = checklist.todoItems;
+    // TODO: FIND TODOS with todosArray and set completed = false
+    todosArray.forEach((todo) => {
+      Todo.findByIdAndUpdate(todo._id, {
+          $set: {
+            completed: false
+          }
+        },
+        function(err) {
+          if (err) { console.error(err) };
+        });
+        // res.render('/lists');
+    });
+    console.log('todos were reset');
+    return res.send('todo items were reset.');
   });
 })
 
