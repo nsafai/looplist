@@ -6,24 +6,33 @@ const auth = require('./helpers/auth');
 
 // GET Default List
 router.get('/lists', auth.requireLogin, (req, res, next) => {
-  Checklist.find({}, function(err, lists) {
+  console.log(res.locals.user._id);
+  Checklist.find({
+      ownerUserId: res.locals.user._id
+    }, function(err, lists) {
     if (err) {
       console.error(err);
     } else {
       const currentList = lists[0]; // default
 
-      Todo.find({
-        '_id': {
-          $in: currentList.todoItems
-        }
-      }, function(err, currentListTodos) {
-        // console.log(currentListTodos);
-        res.render('checklists/index', {
-          currentList: currentList,
-          currentListTodos: currentListTodos,
-          lists: lists
+      if (typeof currentList !== 'undefined') {
+        console.log('currentList not empty!');
+        Todo.find({
+          '_id': {
+            $in: currentList.todoItems
+          }
+        }, function(err, currentListTodos) {
+          // console.log(currentListTodos);
+          res.render('checklists/index', {
+            currentList: currentList,
+            currentListTodos: currentListTodos,
+            lists: lists
+          });
         });
-      });
+      } else {
+        // users who have no lists yet
+        res.render('checklists/index');
+      }
     }
   }).sort([
     ['updatedAt', -1] // change this to change how it sorts

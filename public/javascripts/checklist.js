@@ -13,6 +13,7 @@ function createList() {
   const ul = document.getElementById("ul-of-list-names");
   const li = document.createElement("li");
   var prevSelected = document.getElementsByClassName('selected-list')[0];
+  $("#first-list-butn").hide();
   // console.log(prevSelected.classList);
   axios.post('/lists', {
 
@@ -25,6 +26,7 @@ function createList() {
     if (prevSelected) { // nil check
       prevSelected.classList.remove("selected-list");
     }
+    location.reload();
   }).catch(error => {
     console.error(error);
   });

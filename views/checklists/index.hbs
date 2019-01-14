@@ -6,45 +6,57 @@
       <span class='underline-on-hover'> New List</span>
     </button>
     <ul id="ul-of-list-names">
-      {{#each lists as |list|}}
-      <a href="/lists/{{list._id}}">
-        <li class="left-list-name" id="{{list._id}}">{{list.title}}</li>
-      </a>
-      {{/each}}
+      {{#if lists}}
+        {{#each lists as |list|}}
+        <a href="/lists/{{list._id}}">
+          <li class="left-list-name" id="{{list._id}}">{{list.title}}</li>
+        </a>
+        {{/each}}
+      {{/if}}
     </ul>
   </div>
   <div class="checklist">
-    <div class='list-title-and-reset-btn'>
-      <input id="current-list" listid="{{currentList._id}}"
-      value="{{currentList.title}}" placeholder="List Name"
-      oninput="saveListName('{{currentList._id}}')">
-      <a class="reset butn butn-1" href="">Reset</a>
-    </div>
-    <ul class='to-do-ul'>
-      {{#each currentListTodos as |todo|}}
-        <div class="to-do-and-chkbox">
-          {{#if todo.completed}}
-            <a class="chkbox far fa-check-circle" id="chk-{{todo._id}}"
-            onClick="uncheckbox('{{todo._id}}')" tabindex="-1"></a>
-            <!-- tabindex -1 so tab button skips chkbox and cycles inputs -->
-          {{else}}
-            <a class="chkbox far fa-circle" id="chk-{{todo._id}}"
-            onClick="checkbox('{{todo._id}}')" tabindex="-1"></a>
-            <!-- tabindex -1 so tab button skips chkbox and cycles inputs -->
-          {{/if}}
-          <input class='to-do-input' value="{{todo.name}}" id="{{todo._id}}"
-          todoid="{{todo._id}}" oninput="saveTodo('{{todo._id}}')">
+    {{#if currentList}}
+      {{#eq currentList.ownerUserId user._id}}
+        <div class='list-title-and-reset-btn'>
+          <input id="current-list" listid="{{currentList._id}}"
+          value="{{currentList.title}}" placeholder="List Name"
+          oninput="saveListName('{{currentList._id}}')">
+          <a class="reset butn butn-1" href="">Reset</a>
         </div>
-      {{/each}}
-    </ul>
-    <a class='new-todo-link'>
-      <i class="fas fa-plus"></i>
-      <span class='underline-on-hover'>Add items</span>
-    </a>
-    <a class='delete-list' onClick="deleteList()">
-      Delete List
-      <i class="fas fa-trash-alt"></i>
-    </a>
+        <ul class='to-do-ul'>
+          {{#each currentListTodos as |todo|}}
+            <div class="to-do-and-chkbox">
+              {{#if todo.completed}}
+                <a class="chkbox far fa-check-circle" id="chk-{{todo._id}}"
+                onClick="uncheckbox('{{todo._id}}')" tabindex="-1"></a>
+                <!-- tabindex -1 so tab button skips chkbox and cycles inputs -->
+              {{else}}
+                <a class="chkbox far fa-circle" id="chk-{{todo._id}}"
+                onClick="checkbox('{{todo._id}}')" tabindex="-1"></a>
+                <!-- tabindex -1 so tab button skips chkbox and cycles inputs -->
+              {{/if}}
+              <input class='to-do-input' value="{{todo.name}}" id="{{todo._id}}"
+              todoid="{{todo._id}}" oninput="saveTodo('{{todo._id}}')">
+            </div>
+          {{/each}}
+        </ul>
+        <a class='new-todo-link'>
+          <i class="fas fa-plus"></i>
+          <span class='underline-on-hover'>Add items</span>
+        </a>
+        <a class='delete-list' onClick="deleteList()">
+          Delete List
+          <i class="fas fa-trash-alt"></i>
+        </a>
+      {{else}}
+        <h4>This note does not belong to you. Are you logged into the correct account?</h4>
+      {{/eq}}
+    {{else}}
+      <button href="" class='butn butn-1' id="first-list-butn" onClick="createList()">
+        <span class='underline-on-hover'> New List</span>
+      </button>
+    {{/if}}
   </div>
 </div>
 
