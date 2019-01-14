@@ -269,9 +269,9 @@ nav li {
   background-color: var(--light-grey);
 }
 
-.left-list-name, .new-list-link {
-  /* white-space: nowrap;
-  overflow: auto; */
+.left-list-name {
+  cursor:pointer;
+  color: var(--dark);
 }
 
 /* RIGHT PANE CHECKLIST */
@@ -287,6 +287,12 @@ nav li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+#current-list {
+  font-size: 2em;
+  background-color: var(--light-grey);
+  padding: 1em 1em 1em 0;
 }
 
 .reset {
@@ -323,6 +329,7 @@ nav li {
 .chkbox {
   font-size:1.5em;
   margin-right: 1em;
+  cursor: pointer;
 }
 
 .fa-circle {

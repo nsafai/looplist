@@ -1,35 +1,44 @@
 <div class="list-container">
   <div class="list-names">
     <h3 class='list-title'>My Lists</h3>
-    <button href="" class='new-list-link' onClick="createList()"><i class="fas fa-plus-circle"></i>
+    <button href="" class='new-list-link' onClick="createList()">
+      <i class="fas fa-plus-circle"></i>
       <span class='underline-on-hover'> New List</span>
     </button>
     <ul id="ul-of-list-names">
       {{#each lists as |list|}}
-      <li class="left-list-name">{{list.title}}</li>
+      <a href="/lists/{{list._id}}">
+        <li class="left-list-name" id="{{list._id}}">{{list.title}}</li>
+      </a>
       {{/each}}
     </ul>
   </div>
   <div class="checklist">
     <div class='list-title-and-reset-btn'>
-      <h2 id="current-list" listid="{{currentList._id}}">{{currentList.title}}</h2>
+      <input id="current-list" listid="{{currentList._id}}"
+      value="{{currentList.title}}" placeholder="List Name"
+      oninput="saveListName('{{currentList._id}}')">
       <a class="reset butn butn-1" href="">Reset</a>
     </div>
     <ul class='to-do-ul'>
       {{#each currentListTodos as |todo|}}
         <div class="to-do-and-chkbox">
           {{#if todo.completed}}
-            <a class="chkbox far fa-check-circle" href="" onClick="" tabindex="-1"></a>
-            <!-- tabindex -1 so tab button skips checkboxes and cycles input fields -->
+            <a class="chkbox far fa-check-circle" id="chk-{{todo._id}}"
+            onClick="uncheckbox('{{todo._id}}')" tabindex="-1"></a>
+            <!-- tabindex -1 so tab button skips chkbox and cycles inputs -->
           {{else}}
-            <a class="chkbox far fa-circle" href="" onClick="" tabindex="-1"></a>
-            <!-- tabindex -1 so tab button skips checkboxes and cycles input fields -->
+            <a class="chkbox far fa-circle" id="chk-{{todo._id}}"
+            onClick="checkbox('{{todo._id}}')" tabindex="-1"></a>
+            <!-- tabindex -1 so tab button skips chkbox and cycles inputs -->
           {{/if}}
-          <input class='to-do-input' value="{{todo.name}}" id="{{todo._id}}" todoid="{{todo._id}}" oninput="setTimeout(saveTodo('{{todo._id}}'), 500)">
+          <input class='to-do-input' value="{{todo.name}}" id="{{todo._id}}"
+          todoid="{{todo._id}}" oninput="setTimeout(saveTodo('{{todo._id}}'), 500)">
         </div>
       {{/each}}
     </ul>
-    <a class='new-todo-link'><i class="fas fa-plus"></i>
+    <a class='new-todo-link'>
+      <i class="fas fa-plus"></i>
       <span class='underline-on-hover'>Add items</span>
     </a>
     <a class='delete-list' onClick="deleteList()">

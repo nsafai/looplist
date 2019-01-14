@@ -42,3 +42,21 @@ function deleteList() {
     console.error(error);
   });
 }
+
+/************************
+     SAVING LIST NAME
+************************/
+
+function saveListName(currentListId) {
+  var listNameInputValue = document.getElementById('current-list').value;
+  var listNameLeftPane = document.getElementById(currentListId);
+  listNameLeftPane.innerHTML = listNameInputValue;
+  axios.post('/save-list-name', {
+    currentListId: currentListId,
+    newListName: listNameInputValue
+  }).then(res => {
+    console.log(res);
+  }).catch(error => {
+    console.error(error);
+  });
+}

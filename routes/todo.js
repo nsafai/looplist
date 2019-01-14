@@ -48,16 +48,26 @@ router.post('/save-todo', auth.requireLogin, function(req, res, next) {
 });
 
 // DELETE todos
-router.delete('/delete-todo', auth.requireLogin, function(req,res, next) {
+router.delete('/delete-todo', auth.requireLogin, function(req, res, next) {
   todoId = req.query.id;
   console.log('got a delete request with: ' + todoId);
   Todo.findByIdAndRemove(todoId, function(err, todo) {
     if(err) { res.send(err) }
-    Checklist.findByIdAndUpdate(todo.checklistId, function(err){
+    Checklist.findByIdAndUpdate(todo.checklistId, function(err, checklist){
       if(err) { res.send(err) }
+      
       return res.send('todo item with id: ' + todoId + ' was successfully deleted');
     });
   });
 });
+
+// TOGGLE todo
+router.post('/toggle-todo', auth.requireLogin, function(req, res, next) {
+  todoId = req.body.todoId;
+  Todo.findOne({ _id: todoId }, function(err, todo) {
+    todo.completed = !todo.completed;
+    todo.save(function(err, updatedTodo) {} );
+  });
+})
 
 module.exports = router;
