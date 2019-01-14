@@ -138,8 +138,8 @@ function resetCheckboxes(checklistId) {
   }).then(res => {
     checkboxes = document.getElementsByClassName('chkbox');
     for (var i = 0; i < checkboxes.length; i++) {
-          checkboxes[i].classList.remove('fa-check-circle');
-          checkboxes[i].classList.add('fa-circle');
+      checkboxes[i].classList.remove('fa-check-circle');
+      checkboxes[i].classList.add('fa-circle');
     }
   }).catch(error => {
     console.error(error);
