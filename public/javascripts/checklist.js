@@ -1,8 +1,10 @@
+var timeout = null;
+var doneTypingDelay = 800;
+
 /************************
   SETUP/SELECT TOP LIST
 ************************/
 
-var timeout = null;
 $('#ul-of-list-names li:first').addClass('selected-list');
 
 /************************
@@ -65,5 +67,5 @@ function saveListName(currentListId) {
     }).catch(error => {
       console.error(error);
     });
-  }, 500);
+  }, doneTypingDelay);
 }

@@ -22,7 +22,9 @@
           <input id="current-list" listid="{{currentList._id}}"
           value="{{currentList.title}}" placeholder="List Name"
           oninput="saveListName('{{currentList._id}}')">
-          <a class="reset butn butn-1" href="">Reset</a>
+          <a class="reset butn butn-1" onclick="resetCheckboxes('{{currentList._id}}')">
+            Reset
+          </a>
         </div>
         <ul class='to-do-ul'>
           {{#each currentListTodos as |todo|}}

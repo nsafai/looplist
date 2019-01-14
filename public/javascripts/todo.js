@@ -1,5 +1,6 @@
 // Init a timeout variable to be used below
 var timeout = null;
+var doneTypingDelay = 800;
 
 /************************
      ADDING TO-DO'S
@@ -20,7 +21,7 @@ $(".new-todo-link").on('click', function(e) {
 
 function createTodo(sender) {
   let currentListId = document.getElementById('current-list').getAttribute("listid");
-  axios.post('/todos', {
+  axios.post('/create-todo', {
     currentListId: currentListId
   }).then(res => {
     const todo = res.data;
@@ -28,7 +29,7 @@ function createTodo(sender) {
         <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
         <input class='to-do-input' value="" id="${todo._id}"
         todoid="${todo._id}" oninput="saveTodo('${todo._id}')">
-      </div>`
+      </div>`;
     if (sender == 'button') {
       $('.to-do-ul').append(todoHTML);
     } else {
@@ -88,12 +89,13 @@ function saveTodo(todoId) {
       }).catch(error => {
         console.error(error);
       });
-    }, 500);
+    }, doneTypingDelay);
 }
 
 /************************
  SELECT/DESELECT CHECKBOX
 ************************/
+
 function checkbox(todoId) {
   clearTimeout(timeout);
   const todoCheckbox = document.getElementById('chk-' + todoId)
@@ -122,6 +124,17 @@ function toggleCompletion(todoId, completed) {
   axios.post('/toggle-todo', {
     todoId: todoId,
     completed: completed
+  }).catch(error => {
+    console.error(error);
+  });
+}
+
+/************************
+   RESET ALL CHECKBOXES
+************************/
+function resetCheckboxes(checklistId) {
+  axios.post('/reset-all-todos', {
+    checklistId: checklistId
   }).catch(error => {
     console.error(error);
   });

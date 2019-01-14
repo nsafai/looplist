@@ -5,7 +5,7 @@ const Todo = require('../models/todo');
 const auth = require('./helpers/auth');
 
 // POST/CREATE Todo
-router.post('/todos', auth.requireLogin, function(req, res, next) {
+router.post('/create-todo', auth.requireLogin, function(req, res, next) {
 
   currentListId = req.body.currentListId;
 
@@ -73,10 +73,16 @@ router.post('/toggle-todo', auth.requireLogin, function(req, res, next) {
     function(err) {
       if (err) { console.error(err) };
     });
-  // Todo.findOne({ _id: todoId }, function(err, todo) {
-  //   todo.completed = !todo.completed;
-  //   todo.save(function(err, updatedTodo) {} );
-  // });
+})
+
+// RESET ALL todos
+router.post('/reset-all-todos', auth.requireLogin, function(req, res, next) {
+  checklistId = req.body.checklistId;
+  Checklist.findById(checklistId, function(err, checklist){
+    if(err) { res.send(err) }
+    todosToReset = checklist.todoItems;
+    // TODO: FIND TODOS with ARRAY todosToReset and set completed = false
+  });
 })
 
 module.exports = router;
