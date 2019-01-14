@@ -115,9 +115,9 @@ function uncheckbox(todoId) {
   todoCheckbox.classList.add('fa-circle');
   todoCheckbox.setAttribute("onClick", `checkbox('${todoId}')`);
   let completed = todoCheckbox.classList.contains('fa-check-circle');
-  timeout = setTimeout(function () {
+  // timeout = setTimeout(function () {
     toggleCompletion(todoId, completed);
-  }, 500);
+  // }, 100);
 }
 
 function toggleCompletion(todoId, completed) {
