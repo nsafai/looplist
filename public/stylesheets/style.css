@@ -101,8 +101,13 @@ a:focus {
 }
 
 /****************
-     BUTTONS
+   ERROR PAGE
 ****************/
+.flex-stack {
+  display:flex;
+  flex-direction: column;
+}
+
 /* inspired from https://tympanus.net/codrops/2013/06/13/creative-button-styles/ */
 .butn {
     -webkit-transition: none;

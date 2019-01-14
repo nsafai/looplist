@@ -12,7 +12,8 @@ const UserSchema = new Schema({
   createdAt       : { type: Date, default: Date.now }
 });
 
-UserSchema.plugin(uniqueValidator);
+UserSchema.plugin(uniqueValidator, { message: 'Error, expected {PATH} to be unique.' });
+
 
 UserSchema.pre('save', function(next) {
   // console.log('inside pre save');

@@ -13,7 +13,7 @@ router.get('/login', (req, res, next) => {
 });
 
 // POST signup
-router.post('/signup', (req, res) => {
+router.post('/signup', (req, res, next) => {
   // console.log('inside signup route');
   const user = new User(req.body);
   // console.log('user details at /signup are: ' + user);
@@ -24,10 +24,13 @@ router.post('/signup', (req, res) => {
     // console.log('req session user is: ' + req.session.user);
     res.redirect('/lists');
   }).catch((err) => {
+    const next_error = new Error("Email address already taken. Did you mean to login?");
+    // next_error.status = 401;
+    return next(next_error);
     // console.log('inside catch err on /signup');
-    return res.status(400).send({
-      err
-    });
+    // return res.status(400).send({
+    //   err
+    // });
   });
 });
 
