@@ -1,3 +1,5 @@
+// Init a timeout variable to be used below
+var timeout = null;
 
 /************************
      ADDING TO-DO'S
@@ -25,7 +27,7 @@ function createTodo(sender) {
     const todoHTML = `<div class="to-do-and-chkbox">
         <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
         <input class='to-do-input' value="" id="${todo._id}"
-        todoid="${todo._id}" oninput="setTimeout(saveTodo('${todo._id}'), 500)">
+        todoid="${todo._id}" oninput="saveTodo('${todo._id}')">
       </div>`
     if (sender == 'button') {
       $('.to-do-ul').append(todoHTML);
@@ -74,39 +76,52 @@ function deleteTodo(todoId) {
 ************************/
 
 function saveTodo(todoId) {
-  var todoInputValue = document.getElementById(todoId).value;
-  axios.post('/save-todo', {
-    todoId: todoId,
-    todoInputValue: todoInputValue
-  }).then(res => {
-    console.log(res);
-  }).catch(error => {
-    console.error(error);
-  });
+  clearTimeout(timeout);
+  timeout = setTimeout(function () {
+      var todoInputValue = document.getElementById(todoId).value;
+      console.log('timer finished! saving now.');
+      axios.post('/save-todo', {
+        todoId: todoId,
+        todoInputValue: todoInputValue
+      }).then(res => {
+        console.log(res);
+      }).catch(error => {
+        console.error(error);
+      });
+    }, 500);
 }
 
 /************************
  SELECT/DESELECT CHECKBOX
 ************************/
 function checkbox(todoId) {
+  clearTimeout(timeout);
   const todoCheckbox = document.getElementById('chk-' + todoId)
   todoCheckbox.classList.remove('fa-circle');
   todoCheckbox.classList.add('fa-check-circle');
   todoCheckbox.setAttribute("onClick", `uncheckbox('${todoId}')`);
-  toggleCompletion(todoId);
+  let completed = todoCheckbox.classList.contains('fa-check-circle');
+  timeout = setTimeout(function () {
+    toggleCompletion(todoId, completed);
+  }, 500);
 }
 
 function uncheckbox(todoId) {
+  clearTimeout(timeout);
   const todoCheckbox = document.getElementById('chk-' + todoId)
   todoCheckbox.classList.remove('fa-check-circle');
   todoCheckbox.classList.add('fa-circle');
   todoCheckbox.setAttribute("onClick", `checkbox('${todoId}')`);
-  toggleCompletion(todoId);
+  let completed = todoCheckbox.classList.contains('fa-check-circle');
+  timeout = setTimeout(function () {
+    toggleCompletion(todoId, completed);
+  }, 500);
 }
 
-function toggleCompletion(todoId) {
+function toggleCompletion(todoId, completed) {
   axios.post('/toggle-todo', {
-    todoId: todoId
+    todoId: todoId,
+    completed: completed
   }).catch(error => {
     console.error(error);
   });

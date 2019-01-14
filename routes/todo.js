@@ -55,7 +55,7 @@ router.delete('/delete-todo', auth.requireLogin, function(req, res, next) {
     if(err) { res.send(err) }
     Checklist.findByIdAndUpdate(todo.checklistId, function(err, checklist){
       if(err) { res.send(err) }
-      
+
       return res.send('todo item with id: ' + todoId + ' was successfully deleted');
     });
   });
@@ -64,10 +64,19 @@ router.delete('/delete-todo', auth.requireLogin, function(req, res, next) {
 // TOGGLE todo
 router.post('/toggle-todo', auth.requireLogin, function(req, res, next) {
   todoId = req.body.todoId;
-  Todo.findOne({ _id: todoId }, function(err, todo) {
-    todo.completed = !todo.completed;
-    todo.save(function(err, updatedTodo) {} );
-  });
+  completed = req.body.completed;
+  Todo.findByIdAndUpdate(todoId, {
+      $set: {
+        completed: completed
+      }
+    },
+    function(err) {
+      if (err) { console.error(err) };
+    });
+  // Todo.findOne({ _id: todoId }, function(err, todo) {
+  //   todo.completed = !todo.completed;
+  //   todo.save(function(err, updatedTodo) {} );
+  // });
 })
 
 module.exports = router;

@@ -2,6 +2,7 @@
   SETUP/SELECT TOP LIST
 ************************/
 
+var timeout = null;
 $('#ul-of-list-names li:first').addClass('selected-list');
 
 /************************
@@ -48,15 +49,19 @@ function deleteList() {
 ************************/
 
 function saveListName(currentListId) {
+  clearTimeout(timeout);
   var listNameInputValue = document.getElementById('current-list').value;
   var listNameLeftPane = document.getElementById(currentListId);
   listNameLeftPane.innerHTML = listNameInputValue;
-  axios.post('/save-list-name', {
-    currentListId: currentListId,
-    newListName: listNameInputValue
-  }).then(res => {
-    console.log(res);
-  }).catch(error => {
-    console.error(error);
-  });
+
+  timeout = setTimeout(function () {
+    axios.post('/save-list-name', {
+      currentListId: currentListId,
+      newListName: listNameInputValue
+    }).then(res => {
+      console.log(res);
+    }).catch(error => {
+      console.error(error);
+    });
+  }, 500);
 }

@@ -33,7 +33,7 @@
             <!-- tabindex -1 so tab button skips chkbox and cycles inputs -->
           {{/if}}
           <input class='to-do-input' value="{{todo.name}}" id="{{todo._id}}"
-          todoid="{{todo._id}}" oninput="setTimeout(saveTodo('{{todo._id}}'), 500)">
+          todoid="{{todo._id}}" oninput="saveTodo('{{todo._id}}')">
         </div>
       {{/each}}
     </ul>
