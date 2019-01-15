@@ -13,6 +13,7 @@ router.post('/create-todo', auth.requireLogin, function(req, res, next) {
     name: '',
     checklistId: currentListId
   });
+  // console.log('todo: ' + todo);
 
   todo.save(function(err, todo) {
     if (err) { console.error(err) };

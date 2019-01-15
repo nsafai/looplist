@@ -69,37 +69,37 @@
     const currentListTodos = [];
   {{/if}}
 
-  let needsUpdate = true;
-  let updateInProcess = false;
-
-  function waitThenUpdate() {
-    timeout = setTimeout(function () {
-      saveUpdate()
-    }, 500);
-  }
-
-  function saveUpdate() {
-    needsUpdate = false
-    updateInProcess = true
-    fetch('/save-data', { currentListTodos }).then((res) => {
-      return res.json()
-    }).then((json) => {
-      currentListTodos = json
-      if (needsUpdate) {
-        saveUpdate()
-      }
-    }).catch((err) => {
-      needsUpdate = true
-      saveUpdate()
-    })
-  }
-
-  function addTodo() {
-    clearTimeout(timeout)
-    // makes a todo
-    needsUpdate = true
-    saveUpdate()
-  }
+  // let needsUpdate = true;
+  // let updateInProcess = false;
+  //
+  // function waitThenUpdate() {
+  //   timeout = setTimeout(function () {
+  //     saveUpdate()
+  //   }, 500);
+  // }
+  //
+  // function saveUpdate() {
+  //   needsUpdate = false
+  //   updateInProcess = true
+  //   fetch('/save-data', { currentListTodos }).then((res) => {
+  //     return res.json()
+  //   }).then((json) => {
+  //     currentListTodos = json
+  //     if (needsUpdate) {
+  //       saveUpdate()
+  //     }
+  //   }).catch((err) => {
+  //     needsUpdate = true
+  //     saveUpdate()
+  //   })
+  // }
+  //
+  // function addTodo() {
+  //   clearTimeout(timeout)
+  //   // makes a todo
+  //   needsUpdate = true
+  //   saveUpdate()
+  // }
 
 </script>
 <script src="/javascripts/checklist.js"></script>

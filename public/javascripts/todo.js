@@ -125,7 +125,7 @@ function uncheckbox(todoId) {
 function toggleCompletion(todoId, completed) {
   console.log('toggling todo - before axios request');
   // display progress spinner
-  axios.get('/toggle-todo', {
+  axios.post('/toggle-todo', {
     todoId: todoId,
     completed: completed
   }).then((res) => {
@@ -175,33 +175,3 @@ function resetCheckboxes(checklistId) {
 //   {title: 'brush', index: 1, parent: 'morning'},
 //   {}
 // ]
-
-
-const todolist = [{}, {}, {}]
-
-class Todo {
-  constructor() {
-
-  }
-}
-
-function addTodo() {
-  const id = new Date()
-  todolist.push(new Todo())
-}
-
-function editTodo(id) {
-  const todo = todolist.find(id)
-  // ...
-}
-
-function deleteTodo(id) {
-  // ...
-}
-
-
-
-function saveTodos() {
-  // wait for changes to stop for ___seconds
-  // send todoiList to server
-}

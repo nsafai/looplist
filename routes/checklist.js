@@ -75,8 +75,8 @@ router.get('/lists/:id', auth.requireLogin, (req, res, next) => {
             const todosJson = JSON.stringify(todosString);
             // console.log(todosJson);
             res.render('checklists/index', {
-              selectedList,
-              selectedListTodos,
+              currentList: selectedList,
+              currentListTodos: selectedListTodos,
               lists,
               todosJson
             });
