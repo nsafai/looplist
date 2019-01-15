@@ -10,7 +10,8 @@ var doneTypingDelay = 800;
 $(".to-do-ul").on('keyup', function(e) {
   if (e.keyCode == 13) {
     let todoId = document.activeElement.getAttribute("todoid");
-    createTodo(todoId);
+    // createTodo(todoId);
+    createTodo('button');
   }
 });
 
@@ -105,12 +106,13 @@ function checkbox(todoId) {
   let completed = todoCheckbox.classList.contains('fa-check-circle');
   timeout = setTimeout(function () {
     toggleCompletion(todoId, completed);
-  }, 500);
+  }, 50);
 }
 
 function uncheckbox(todoId) {
   clearTimeout(timeout);
   const todoCheckbox = document.getElementById('chk-' + todoId)
+  // add that id to an array
   todoCheckbox.classList.remove('fa-check-circle');
   todoCheckbox.classList.add('fa-circle');
   todoCheckbox.setAttribute("onClick", `checkbox('${todoId}')`);
@@ -121,9 +123,14 @@ function uncheckbox(todoId) {
 }
 
 function toggleCompletion(todoId, completed) {
-  axios.post('/toggle-todo', {
+  console.log('toggling todo - before axios request');
+  // display progress spinner
+  axios.get('/toggle-todo', {
     todoId: todoId,
     completed: completed
+  }).then((res) => {
+    // hide progress spinner
+    console.log(res.data);
   }).catch(error => {
     console.error(error);
   });
@@ -144,4 +151,57 @@ function resetCheckboxes(checklistId) {
   }).catch(error => {
     console.error(error);
   });
+}
+
+// class Checklist {
+//   constructor(title, owner, parent, todos) {
+//     this.title = title;
+//     this.owner = owner
+//     this.parent = parent;
+//     this.todos = todos;
+//   }
+// }
+//
+// class Todo {
+//   constructor(title, parent) {
+//     this.title = title;
+//     this.completed = false;
+//     this.parent = parent;
+//   }
+// }
+// // new Todo('', 1, '')
+//
+// const checkList = [
+//   {title: 'brush', index: 1, parent: 'morning'},
+//   {}
+// ]
+
+
+const todolist = [{}, {}, {}]
+
+class Todo {
+  constructor() {
+
+  }
+}
+
+function addTodo() {
+  const id = new Date()
+  todolist.push(new Todo())
+}
+
+function editTodo(id) {
+  const todo = todolist.find(id)
+  // ...
+}
+
+function deleteTodo(id) {
+  // ...
+}
+
+
+
+function saveTodos() {
+  // wait for changes to stop for ___seconds
+  // send todoiList to server
 }

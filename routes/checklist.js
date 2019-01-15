@@ -4,7 +4,7 @@ const Checklist = require('../models/checklist');
 const Todo = require('../models/todo');
 const auth = require('./helpers/auth');
 
-// GET Default List
+
 router.get('/lists', auth.requireLogin, (req, res, next) => {
   console.log(res.locals.user._id);
   Checklist.find({
@@ -23,10 +23,19 @@ router.get('/lists', auth.requireLogin, (req, res, next) => {
           }
         }, function(err, currentListTodos) {
           // console.log(currentListTodos);
+          const todosString = currentListTodos.map((item) => {
+            const { id, name, completed } = item
+
+            return { id: id.toString(), name, completed }
+          });
+          // console.log(todosString);
+          const todosJson = JSON.stringify(todosString);
+          // console.log(todosJson);
           res.render('checklists/index', {
-            currentList: currentList,
-            currentListTodos: currentListTodos,
-            lists: lists
+            currentList,
+            currentListTodos,
+            lists,
+            todosJson
           });
         });
       } else {
@@ -47,10 +56,8 @@ router.get('/lists/:id', auth.requireLogin, (req, res, next) => {
     if (err) { console.error(err) }
     selectedList.updatedAt = Date.now();
     // selectedList.save();
-    selectedList.save(function(err, updatedList) {
-      if (err) {
-        console.error(err)
-      };
+    selectedList.save(function(err) {
+      if (err) { console.error(err) };
       Checklist.find({
           ownerUserId: res.locals.user._id
         }, function(err, lists) {
@@ -59,11 +66,19 @@ router.get('/lists/:id', auth.requireLogin, (req, res, next) => {
           Todo.find({'_id': {
             $in: selectedList.todoItems
           }}, function(err, selectedListTodos) {
-            // console.log(selectedListTodos);
+            const todosString = selectedListTodos.map((item) => {
+              const { id, name, completed } = item
+
+              return { id: id.toString(), name, completed }
+            });
+            // console.log(todosString);
+            const todosJson = JSON.stringify(todosString);
+            // console.log(todosJson);
             res.render('checklists/index', {
-              currentList: selectedList,
-              currentListTodos: selectedListTodos,
-              lists: lists
+              selectedList,
+              selectedListTodos,
+              lists,
+              todosJson
             });
           });
         }

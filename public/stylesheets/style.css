@@ -223,15 +223,25 @@ nav li {
 ***************/
 .hero {
   margin: 2em;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 3em;
+  align-items: center;
 }
 
 .main-cta {
   margin-top:1.5em;
 }
 
+.right-hero img {
+  max-width: 40vw;
+  max-height: 40vh;
+}
+
 /***************
    CHECKLIST
 ***************/
+
 .list-container {
   width: 100%;
   height: 100%;
@@ -404,6 +414,26 @@ footer {
 }
 
 /****************
+    LG. TABLET
+****************/
+@media screen and (max-width: 990px) {
+  /* HOMEPAGE */
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .right-hero {
+    margin-top: 5em;
+  }
+
+  .right-hero img {
+    max-width:90vw;
+  }
+}
+
+/****************
       MOBILE
 ****************/
 @media screen and (max-width: 600px) {
@@ -421,18 +451,21 @@ footer {
     width: 85%;
   }
 
+  /* CHECKLIST - LEFT PANE */
+
+  .left-list-name, .new-list-link {
+    padding: 0.2em;
+  }
+
+  /* CHECKLIST - RIGHT PANE */
+
   .list-title-and-reset-btn {
     display: flex;
     flex-direction: column;
-    /* justify-content: flex-start; */
     align-items: flex-start;
   }
 
   .reset {
     margin-left: 0;
-  }
-
-  .left-list-name, .new-list-link {
-    padding: 0.2em;
   }
 }
