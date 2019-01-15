@@ -6,25 +6,19 @@ const auth = require('./helpers/auth');
 
 // POST/CREATE Todo
 router.post('/create-todo', auth.requireLogin, function(req, res, next) {
-
   const currentListId = req.body.currentListId;
-
+  console.log('got a create todo request for checklistId: ' + currentListId);
   let todo = new Todo({
     name: '',
     checklistId: currentListId
   });
-  // console.log('todo: ' + todo);
-
   todo.save(function(err, todo) {
     if (err) { console.error(err) };
-    Checklist.findByIdAndUpdate(
-      currentListId, {
-        $addToSet: {
-          todoItems: todo._id
-        }
-      },
+    Checklist.findByIdAndUpdate(currentListId, {
+        $addToSet: { todoItems: todo._id } },
       function(err, checklist) {
         if (err) { console.error(err) }
+        console.log('successfully created new todo with ID: ' + todo._id);
         return res.send(todo);
       });
   });
@@ -35,7 +29,7 @@ router.post('/save-todo', auth.requireLogin, function(req, res, next) {
   // console.log(req.body.todoId);
   const todoId = req.body.todoId;
   const todoInputValue = req.body.todoInputValue;
-
+  console.log('got a save request for todo.id: ' + todoId);
   Todo.findByIdAndUpdate(
     todoId, {
       $set: {
@@ -45,19 +39,23 @@ router.post('/save-todo', auth.requireLogin, function(req, res, next) {
     function(err) {
       if (err) { console.error(err) };
     });
+    console.log('successfully saved todo.id: ' + todoId);
 });
 
 // DELETE todos
 router.delete('/delete-todo', auth.requireLogin, function(req, res, next) {
   const todoId = req.query.id;
-  console.log('got a delete request with: ' + todoId);
+  console.log('got a delete request for todo.id: ' + todoId);
   Todo.findByIdAndRemove(todoId, function(err, todo) {
     if(err) { res.send(err) }
-    Checklist.findByIdAndUpdate(todo.checklistId, function(err, checklist){
-      if(err) { res.send(err) }
-
-      return res.send('todo item with id: ' + todoId + ' was successfully deleted');
-    });
+    console.log('found todo to delete');
+    Checklist.findByIdAndUpdate(todo.checklistId, {
+          $pull: { todoItems: todoId }}, function(err, checklist) {
+          if (err) { res.send(err) };
+          console.log('found checklist to update');
+          console.log('todo item with id: ' + todoId + ' was successfully deleted and removed from checklist');
+          return res.send('todo item with id: ' + todoId + ' was successfully deleted');
+        });
   });
 });
 
@@ -82,7 +80,7 @@ router.post('/toggle-todo', auth.requireLogin, function(req, res, next) {
 
 // RESET ALL todos
 router.post('/reset-all-todos', auth.requireLogin, function(req, res, next) {
-  // console.log()
+  console.log('got a request to reset all todos');
   const checklistId = req.body.checklistId;
   Checklist.findById(checklistId, function(err, checklist){
     if(err) { res.send(err) }
@@ -97,7 +95,6 @@ router.post('/reset-all-todos', auth.requireLogin, function(req, res, next) {
         function(err) {
           if (err) { console.error(err) };
         });
-        // res.render('/lists');
     });
     console.log('todos were reset');
     return res.send('todo items were reset.');

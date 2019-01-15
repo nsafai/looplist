@@ -9,7 +9,7 @@ var doneTypingDelay = 800;
 // press enter button at end of line to create new todo
 $(".to-do-ul").on('keyup', function(e) {
   if (e.keyCode == 13) {
-    let todoId = document.activeElement.getAttribute("todoid");
+    const todoId = document.activeElement.getAttribute("todoid");
     // createTodo(todoId);
     createTodo('button');
   }
@@ -26,6 +26,7 @@ function createTodo(sender) {
     currentListId: currentListId
   }).then(res => {
     const todo = res.data;
+    console.log('successfully created new todo with ID: ' + todo._id);
     const todoHTML = `<div class="to-do-and-chkbox">
         <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
         <input class='to-do-input' value="" id="${todo._id}"
@@ -35,7 +36,7 @@ function createTodo(sender) {
       $('.to-do-ul').append(todoHTML);
     } else {
       // sender contains ID of todo field user pressed ENTER on
-      let activeInput = $(`#${sender}`)
+      const activeInput = $(`#${sender}`)
       activeInput.parent().after(todoHTML);
     }
     document.getElementById(todo._id).focus();
@@ -52,22 +53,25 @@ $(".to-do-ul").on('keyup', function(e) {
   if (document.activeElement.value == "") {
     // todo item is empty, user may be trying to delete that field
     if (e.keyCode == 8) { // someone pressed backspace
-      let todoId = document.activeElement.getAttribute("todoid");
-      let activeInput = $(`#${todoId}`);
-      prevInput = activeInput.parent().prev().find('.to-do-input');
-      deleteTodo(todoId);
-      document.activeElement.parentElement.remove();
-      prevInput.focus().val(prevInput.val());
-      // ^ by focusing then resetting value, cursor is at end of text field
+      const todoId = document.activeElement.getAttribute("todoid");
+      const activeInput = $(`#${todoId}`);
+      const prevInput = activeInput.parent().prev().find('.to-do-input');
+      deleteTodo(todoId, activeInput, prevInput);
     }
   }
 });
 
-function deleteTodo(todoId) {
+function deleteTodo(todoId, activeInput, prevInput) {
   axios.delete('/delete-todo', {
     params: { id: todoId }
   }).then(res => {
-    // window.location = "/lists";
+    console.log(res.data);
+    activeInput.parent().remove();
+    // prevInput.focus().val(prevInput.val());
+    var prevInputLength= prevInput.val().length;
+    prevInput.focus();
+    prevInput[0].setSelectionRange(prevInputLength, prevInputLength);
+    // ^ by focusing then resetting value, cursor is at end of text field
   }).catch(error => {
     console.error(error);
   });
@@ -103,7 +107,7 @@ function checkbox(todoId) {
   todoCheckbox.classList.remove('fa-circle');
   todoCheckbox.classList.add('fa-check-circle');
   todoCheckbox.setAttribute("onClick", `uncheckbox('${todoId}')`);
-  let completed = todoCheckbox.classList.contains('fa-check-circle');
+  const completed = todoCheckbox.classList.contains('fa-check-circle');
   timeout = setTimeout(function () {
     toggleCompletion(todoId, completed);
   }, 50);
@@ -116,7 +120,7 @@ function uncheckbox(todoId) {
   todoCheckbox.classList.remove('fa-check-circle');
   todoCheckbox.classList.add('fa-circle');
   todoCheckbox.setAttribute("onClick", `checkbox('${todoId}')`);
-  let completed = todoCheckbox.classList.contains('fa-check-circle');
+  const completed = todoCheckbox.classList.contains('fa-check-circle');
   timeout = setTimeout(function () {
     toggleCompletion(todoId, completed);
   }, 50);
@@ -143,7 +147,7 @@ function resetCheckboxes(checklistId) {
   axios.post('/reset-all-todos', {
     checklistId: checklistId
   }).then(res => {
-    checkboxes = document.getElementsByClassName('chkbox');
+    let checkboxes = document.getElementsByClassName('chkbox');
     for (var i = 0; i < checkboxes.length; i++) {
       checkboxes[i].classList.remove('fa-check-circle');
       checkboxes[i].classList.add('fa-circle');
