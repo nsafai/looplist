@@ -1,6 +1,6 @@
 // Init a timeout variable to be used below
 var timeout = null;
-var doneTypingDelay = 800;
+var stillEditingDelay = 800;
 
 /************************
      ADDING TO-DO'S
@@ -94,12 +94,13 @@ function saveTodo(todoId) {
       }).catch(error => {
         console.error(error);
       });
-    }, doneTypingDelay);
+    }, stillEditingDelay);
 }
 
 /************************
  SELECT/DESELECT CHECKBOX
 ************************/
+let todosToUpdate = [];
 
 function checkbox(todoId) {
   clearTimeout(timeout);
@@ -108,9 +109,11 @@ function checkbox(todoId) {
   todoCheckbox.classList.add('fa-check-circle');
   todoCheckbox.setAttribute("onClick", `uncheckbox('${todoId}')`);
   const completed = todoCheckbox.classList.contains('fa-check-circle');
+  todosToUpdate.push({ id: todoId, completed: completed });
+  console.log("todosToUpdate: " + todosToUpdate);
   timeout = setTimeout(function () {
-    toggleCompletion(todoId, completed);
-  }, 50);
+    toggleCompletion(todosToUpdate);
+  }, stillEditingDelay);
 }
 
 function uncheckbox(todoId) {
@@ -121,20 +124,22 @@ function uncheckbox(todoId) {
   todoCheckbox.classList.add('fa-circle');
   todoCheckbox.setAttribute("onClick", `checkbox('${todoId}')`);
   const completed = todoCheckbox.classList.contains('fa-check-circle');
+  todosToUpdate.push({ id: todoId, completed: completed });
+  console.log("todosToUpdate: " + todosToUpdate);
   timeout = setTimeout(function () {
-    toggleCompletion(todoId, completed);
-  }, 50);
+    toggleCompletion(todosToUpdate);
+  }, stillEditingDelay);
 }
 
-function toggleCompletion(todoId, completed) {
+function toggleCompletion(todosToUpdate) {
   console.log('toggling todo - before axios request');
   // display progress spinner
   axios.post('/toggle-todo', {
-    todoId: todoId,
-    completed: completed
+    todosToUpdate
   }).then((res) => {
     // hide progress spinner
     console.log(res.data);
+    todosToUpdate = [];
   }).catch(error => {
     console.error(error);
   });
@@ -156,26 +161,3 @@ function resetCheckboxes(checklistId) {
     console.error(error);
   });
 }
-
-// class Checklist {
-//   constructor(title, owner, parent, todos) {
-//     this.title = title;
-//     this.owner = owner
-//     this.parent = parent;
-//     this.todos = todos;
-//   }
-// }
-//
-// class Todo {
-//   constructor(title, parent) {
-//     this.title = title;
-//     this.completed = false;
-//     this.parent = parent;
-//   }
-// }
-// // new Todo('', 1, '')
-//
-// const checkList = [
-//   {title: 'brush', index: 1, parent: 'morning'},
-//   {}
-// ]

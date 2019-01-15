@@ -1,5 +1,5 @@
 var timeout = null;
-var doneTypingDelay = 800;
+var stillEditingDelay = 800;
 
 /************************
   SETUP/SELECT TOP LIST
@@ -67,5 +67,5 @@ function saveListName(currentListId) {
     }).catch(error => {
       console.error(error);
     });
-  }, doneTypingDelay);
+  }, stillEditingDelay);
 }

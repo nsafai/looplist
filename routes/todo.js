@@ -61,21 +61,26 @@ router.delete('/delete-todo', auth.requireLogin, function(req, res, next) {
 
 // TOGGLE todo
 router.post('/toggle-todo', auth.requireLogin, function(req, res, next) {
+  const todosToUpdate = req.body.todosToUpdate;
+  console.log(todosToUpdate);
 
-  const todoId = req.body.todoId;
-  const completed = req.body.completed;
-  console.log('toggling todoId: ' + todoId + ' / status: ' + completed);
+  todosToUpdate.forEach((todo) => {
+    console.log(todo);
+    let todoId = todo.id;
+    console.log(todoId);
+    let todoCompletion = todo.completed;
+    console.log(todoCompletion);
+    console.log('toggling todos with ID: ' + todoId + ' / status: ' + todoCompletion);
 
-  Todo.findByIdAndUpdate(todoId, {
-    // TODO: change to findOneAndUpdate
-      $set: {
-        completed: completed
-      }
-    },
-    function(err) {
-      if (err) { console.error(err) };
-    });
-    return res.send('hey finished toggling todo');
+    Todo.findByIdAndUpdate(todoId, {
+      // TODO: change to findOneAndUpdate
+        $set: { completed: todoCompletion }
+      },
+      function(err) {
+        if (err) { console.error(err) };
+      });
+  })
+    return res.send('hey finished toggling all todosToUpdate');
 })
 
 // RESET ALL todos
