@@ -69,3 +69,63 @@ function saveListName(currentListId) {
     });
   }, stillEditingDelay);
 }
+
+
+/************************
+      SEARCH LISTS
+************************/
+function search(event) {
+  clearTimeout(timeout);
+  event.preventDefault();
+  const searchTerm = document.getElementById('search-lists-input').value
+  console.log('searching for', searchTerm);
+  
+  
+  axios.get('search', {
+    params: {
+      term: searchTerm
+    }
+  })
+  .then(function (response) {
+    console.log(response.data);
+    const listNamesContainer = $('#ul-of-list-names');
+    const listViewContainer = $('#list-items-view');
+    const listViewHelperText = $('#select-a-list-helper-div');
+
+    listNamesContainer.empty();
+
+    if (response.data.length === 0) {
+      listNamesContainer.append(`
+        <li class="search-results-txt">No results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
+      `);
+    } else {
+      listNamesContainer.append(`
+        <li class="search-results-txt">Showing results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
+      `)
+      response.data.forEach(function(list) {
+        // console.log(list);
+        listViewContainer.empty();
+        listViewHelperText.removeClass('hidden');
+        
+        listNamesContainer.append(`
+        <a href="/lists/${list._id}">
+          <li class="left-list-name" id="${list._id}">${list.title}</li>
+        </a>
+        `);
+      });
+    }
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+}
+
+$('#search-lists-input').on('input', function(event) {
+  timeout = setTimeout(function () {
+    search(event);
+  }, stillEditingDelay);
+})
+
+$('#search-lists-btn').click(function(event) {
+  search(event);
+})

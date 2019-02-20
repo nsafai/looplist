@@ -5,6 +5,7 @@ const Todo = require('../models/todo');
 const auth = require('./helpers/auth');
 
 
+// GET ALL LISTS
 router.get('/lists', auth.requireLogin, (req, res, next) => {
   console.log(res.locals.user._id);
   Checklist.find({
@@ -126,9 +127,24 @@ router.delete('/lists', function(req, res, next) {
   listId = req.query.id;
   console.log('got a delete request with: ' + listId);
   Checklist.findByIdAndRemove(listId, function(err){
-    if(err){res.send(err);}
+    if(err){ res.send(err); }
     return res.send('successfully deleted a checklist with Id: ' + listId);
   });
+});
+
+// SEARCH checklists
+router.get('/search', (req, res) => {
+  term = new RegExp(req.query.term, 'i');
+
+  Checklist.find({'title': term}, function(err, lists) {
+    if (err) { console.error(err) }
+    else {
+      res.send(lists);
+    }
+  })
+  // .sort([
+  //   ['updatedAt', -1] // change this to change how it sorts
+  // ]);
 });
 
 

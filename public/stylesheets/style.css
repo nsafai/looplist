@@ -53,6 +53,10 @@ body {
   grid-template-rows: 5em 1fr 3em;
 }
 
+.hidden {
+  display: none !important;
+}
+
 main {
   display: flex;
   justify-content: center;
@@ -264,12 +268,39 @@ nav li {
   margin: 2em 0 0.5em 1em;
 }
 
+.search-form {
+  display: flex;
+  margin: 1em;
+  border: none;
+  outline: none;
+}
+
+.search-form input {
+  padding: calc(var(--input-padding) / 2);
+}
+
+.search-form button {
+  color: var(--white);
+  background-color: var(--green);
+  border: none;
+}
+
+.search-results-txt {
+  padding-top: 0.5em;
+  color: var(--dark-grey);
+}
+
+.bold-help-txt {
+  font-weight: bold;
+  color: black;
+}
+
 .new-list-link {
   color: var(--dark-grey);
   border: none;
   background: none;
   font-size: 1em;
-  padding: 1em 1em 0em 1em;
+  padding: 0em 1em 0em 1em;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
@@ -388,6 +419,18 @@ nav li {
   margin-top:2em;
 }
 
+/* HELPER TEXT */
+#select-a-list-helper-div {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+#select-a-list-helper-text {
+  color: var(--grey);
+}
+
 /***************
  SIGNUP / LOGIN
 ***************/
@@ -399,6 +442,7 @@ nav li {
 
 div.helper-text {
   margin-top: 1.5em;
+  margin-bottom: 2.5em;
 }
 
 /****************
@@ -406,7 +450,8 @@ div.helper-text {
 ****************/
 
 footer {
-  bottom:0;
+
+  bottom: 0;
   width: 100%;
   text-align: center;
   background-color: var(--dark-grey);
@@ -446,15 +491,10 @@ footer {
     padding: 1.16em 1em;
   }
 
-  . {
-    margin: 0 auto;
-    width: 85%;
-  }
-
   /* CHECKLIST - LEFT PANE */
 
   .left-list-name, .new-list-link {
-    padding: 0.2em;
+    padding: 0em 0em 0.5em 0.5em;
   }
 
   /* CHECKLIST - RIGHT PANE */
