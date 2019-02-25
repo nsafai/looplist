@@ -6,18 +6,23 @@ var stillEditingDelay = 800;
 ************************/
 
 $('#ul-of-list-names li:first').addClass('selected-list');
-const listsContainer = document.getElementById("ul-of-list-names");
+const listsContainer = $('#ul-of-list-names');
 const todosContainer = $('#todos-container');
 const listTitleContainer = $('#list-title-container');
+const listViewContainer = $('#list-items-view');
+const listViewHelperText = $('#select-a-list-helper-div');
 
 /************************
  *    GET LIST ITEMS    *
  ***********************/
 
 function getListItems(listId) {
+  listViewHelperText.addClass('hidden');
   const oldCurrentList = $(`.selected-list`)[0];
-  console.log(oldCurrentList);
-  oldCurrentList.classList.remove('selected-list');
+  if (oldCurrentList) { 
+    // have to check this because there are no selected lists on search
+    oldCurrentList.classList.remove('selected-list');
+  }
   const newCurrentList = $(`#${listId}`);
   newCurrentList.addClass('selected-list');
 
@@ -68,7 +73,7 @@ function createList() {
 
   const li = document.createElement("li");
   var prevSelected = document.getElementsByClassName('selected-list')[0];
-  $("#first-list-butn").hide();
+  // $("#first-list-butn").hide();
   // console.log(prevSelected.classList);
   axios.post('/lists', {})
     .then(res => {
@@ -130,48 +135,52 @@ function saveListName(currentListId) {
       SEARCH LISTS
 ************************/
 function search(event) {
+  const currentListId = $(`#current-list`).attr("listid");
+  // let currentListId = 0;
+  // if (currentLists !== []) { // nil check
+  //   currentListId = currentLists[0].id;
+  // }
+  console.log('currentListId is: ', currentListId);
   clearTimeout(timeout);
-  event.preventDefault();
   const searchTerm = document.getElementById('search-lists-input').value
   console.log('searching for', searchTerm);
-  
-  
-  axios.get('search', {
-    params: {
-      term: searchTerm
-    }
-  })
-  .then(function (response) {
-    console.log(response.data);
-    const listViewContainer = $('#list-items-view');
-    const listViewHelperText = $('#select-a-list-helper-div');
-
-    listsContainer.empty();
-
-    if (response.data.length === 0) {
-      listsContainer.append(`
-        <li class="search-results-txt">No results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
-      `);
-    } else {
-      listsContainer.append(`
-        <li class="search-results-txt">Showing results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
-      `)
-      response.data.forEach(function(list) {
-        // console.log(list);
-        listViewContainer.empty();
-        listViewHelperText.removeClass('hidden');
-        
+  axios
+    .get('search', {
+      params: {
+        term: searchTerm
+      }
+    })
+    .then(function (response) {
+      console.log(response.data);
+      listsContainer.empty();
+      if (response.data.length === 0) {
         listsContainer.append(`
-        <a href="/lists/${list._id}">
-          <li class="left-list-name" id="${list._id}">${list.title}</li>
-        </a>
+          <li class="search-results-txt">No results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
         `);
-      });
-    }
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
+      } else {
+        listsContainer.append(`
+          <li class="search-results-txt">Showing results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
+        `)
+        response.data.forEach(function(list) {
+          if (list._id === currentListId) {
+            listsContainer.append(`
+            <a onclick="getListItems('${list._id}')">
+              <li class="left-list-name selected-list" id="${list._id}">${list.title}</li>
+            </a>
+          `);
+          } else {
+            listsContainer.append(`
+            <a onclick="getListItems('${list._id}')">
+              <li class="left-list-name" id="${list._id}">${list.title}</li>
+            </a>
+          `);
+          }
+        });
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
 }
 
 $('#search-lists-input').on('input', function(event) {
@@ -181,5 +190,6 @@ $('#search-lists-input').on('input', function(event) {
 })
 
 $('#search-lists-btn').click(function(event) {
+  event.preventDefault();
   search(event);
 })

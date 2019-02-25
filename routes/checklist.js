@@ -133,16 +133,21 @@ router.delete('/lists', function(req, res, next) {
 // SEARCH checklists
 router.get('/search', (req, res) => {
   const term = new RegExp(req.query.term, 'i');
+  let currentUserId = res.locals.user._id;
 
-  Checklist.find({'title': term}, function(err, lists) {
-    if (err) { console.error(err) }
-    else {
-      res.send(lists);
-    }
-  })
-  // .sort([
-  //   ['updatedAt', -1] // change this to change how it sorts
-  // ]);
+  Checklist
+    .find({
+      'title': term,
+      'ownerUserId': currentUserId,
+    }, function(err, lists) {
+      if (err) { console.error(err) }
+      else {
+        res.send(lists);
+      }
+    })
+    .sort([
+      ['updatedAt', -1] // change this to change how it sorts
+    ]);
 });
 
 

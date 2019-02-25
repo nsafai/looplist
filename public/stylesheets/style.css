@@ -419,18 +419,6 @@ nav li {
   margin-top:2em;
 }
 
-/* HELPER TEXT */
-#select-a-list-helper-div {
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-#select-a-list-helper-text {
-  color: var(--grey);
-}
-
 /***************
  SIGNUP / LOGIN
 ***************/
