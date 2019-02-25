@@ -2,36 +2,89 @@ var timeout = null;
 var stillEditingDelay = 800;
 
 /************************
-  SETUP/SELECT TOP LIST
+* SETUP/SELECT TOP LIST *
 ************************/
 
 $('#ul-of-list-names li:first').addClass('selected-list');
+const listsContainer = document.getElementById("ul-of-list-names");
+const todosContainer = $('#todos-container');
+const listTitleContainer = $('#list-title-container');
+
+/************************
+ *    GET LIST ITEMS    *
+ ***********************/
+
+function getListItems(listId) {
+  const oldCurrentList = $(`.selected-list`)[0];
+  console.log(oldCurrentList);
+  oldCurrentList.classList.remove('selected-list');
+  const newCurrentList = $(`#${listId}`);
+  newCurrentList.addClass('selected-list');
+
+  axios
+    .get(`lists/${listId}`, {})
+    .then(function (response) {
+      console.log(response.data);
+      const { currentList, currentListTodos, lists } = response.data;
+      listTitleContainer.empty();
+      listTitleContainer.append(`
+        <input id="current-list" listid="${currentList._id}"
+        value="${currentList.title}" placeholder="List Name"
+        oninput="saveListName('${currentList._id}')"></input>
+      `);
+      todosContainer.empty();
+      currentListTodos.forEach(function(todo) {
+        if (todo.completed) {
+          todosContainer.append(`
+          <div class="to-do-and-chkbox">
+            <a class="chkbox far fa-check-circle" id="chk-${todo._id}"
+            onClick="uncheckbox('${todo._id}')" tabindex="-1"></a>
+            <input class='to-do-input' value="${todo.name}" id="${todo._id}"
+            todoid="${todo._id}" oninput="saveTodo('${todo._id}')">
+          </div>
+          `);
+        } else {
+        todosContainer.append(`
+          <div class="to-do-and-chkbox">
+            <a class="chkbox far fa-circle" id="chk-${todo._id}"
+            onClick="checkbox('${todo._id}')" tabindex="-1"></a>
+            <input class='to-do-input' value="${todo.name}" id="${todo._id}"
+            todoid="${todo._id}" oninput="saveTodo('${todo._id}')">
+          </div>
+        `)
+        }
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+}
 
 /************************
       ADDING LISTS
 ************************/
 
 function createList() {
-  const ul = document.getElementById("ul-of-list-names");
+
   const li = document.createElement("li");
   var prevSelected = document.getElementsByClassName('selected-list')[0];
   $("#first-list-butn").hide();
   // console.log(prevSelected.classList);
-  axios.post('/lists', {
-
-  }).then(res => {
-    newList = res.data;
-    li.setAttribute("class", "selected-list left-list-name");
-    li.setAttribute("id", newList._id);
-    li.appendChild(document.createTextNode("New List"));
-    ul.insertBefore(li, ul.firstChild);
-    if (prevSelected) { // nil check
-      prevSelected.classList.remove("selected-list");
-    }
-    location.reload();
-  }).catch(error => {
+  axios.post('/lists', {})
+    .then(res => {
+      newList = res.data;
+      li.setAttribute("class", "selected-list left-list-name");
+      li.setAttribute("id", newList._id);
+      li.appendChild(document.createTextNode("New List"));
+      listsContainer.insertBefore(li, listsContainer.firstChild);
+      if (prevSelected) { // nil check
+        prevSelected.classList.remove("selected-list");
+      }
+      location.reload();
+    })
+    .catch(error => {
     console.error(error);
-  });
+    });
 }
 
 /************************
@@ -41,11 +94,13 @@ function deleteList() {
   currentListId = document.getElementById('current-list').getAttribute("listid")
   axios.delete('/lists', {
     params: { id: currentListId }
-  }).then(res => {
-    window.location = "/lists";
-  }).catch(error => {
-    console.error(error);
-  });
+  })
+    .then(res => {
+      window.location = "/lists";
+    })
+    .catch(error => {
+      console.error(error);
+    });
 }
 
 /************************
@@ -88,18 +143,17 @@ function search(event) {
   })
   .then(function (response) {
     console.log(response.data);
-    const listNamesContainer = $('#ul-of-list-names');
     const listViewContainer = $('#list-items-view');
     const listViewHelperText = $('#select-a-list-helper-div');
 
-    listNamesContainer.empty();
+    listsContainer.empty();
 
     if (response.data.length === 0) {
-      listNamesContainer.append(`
+      listsContainer.append(`
         <li class="search-results-txt">No results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
       `);
     } else {
-      listNamesContainer.append(`
+      listsContainer.append(`
         <li class="search-results-txt">Showing results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
       `)
       response.data.forEach(function(list) {
@@ -107,7 +161,7 @@ function search(event) {
         listViewContainer.empty();
         listViewHelperText.removeClass('hidden');
         
-        listNamesContainer.append(`
+        listsContainer.append(`
         <a href="/lists/${list._id}">
           <li class="left-list-name" id="${list._id}">${list.title}</li>
         </a>

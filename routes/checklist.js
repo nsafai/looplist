@@ -29,14 +29,11 @@ router.get('/lists', auth.requireLogin, (req, res, next) => {
 
             return { id: id.toString(), name, completed }
           });
-          // console.log(todosString);
-          const todosJson = JSON.stringify(todosString);
-          // console.log(todosJson);
+
           res.render('checklists/index', {
             currentList,
             currentListTodos,
             lists,
-            todosJson
           });
         });
       } else {
@@ -55,38 +52,39 @@ router.get('/lists/:id', auth.requireLogin, (req, res, next) => {
   selectedListId = req.params.id;
   Checklist.findById(selectedListId, function(err, selectedList) {
     if (err) { console.error(err) }
-    selectedList.updatedAt = Date.now();
-    // selectedList.save();
-    selectedList.save(function(err) {
-      if (err) { console.error(err) };
-      Checklist.find({
-          ownerUserId: res.locals.user._id
-        }, function(err, lists) {
-        if (err) { console.error(err) }
-        else {
-          Todo.find({'_id': {
-            $in: selectedList.todoItems
-          }}, function(err, selectedListTodos) {
-            const todosString = selectedListTodos.map((item) => {
-              const { id, name, completed } = item
+    if (selectedList) {
+      selectedList.updatedAt = Date.now();
+      // selectedList.save();
+      selectedList.save(function(err) {
+        if (err) { console.error(err) };
+        Checklist.find({
+            ownerUserId: res.locals.user._id
+          }, function(err, lists) {
+          if (err) { console.error(err) }
+          else {
+            Todo.find({'_id': {
+              $in: selectedList.todoItems
+            }}, function(err, selectedListTodos) {
+              const todosString = selectedListTodos.map((item) => {
+                const { id, name, completed } = item
 
-              return { id: id.toString(), name, completed }
+                return { id: id.toString(), name, completed }
+              });
+              return res.send({
+                currentList: selectedList,
+                currentListTodos: selectedListTodos,
+                lists,
+              });
             });
-            // console.log(todosString);
-            const todosJson = JSON.stringify(todosString);
-            // console.log(todosJson);
-            res.render('checklists/index', {
-              currentList: selectedList,
-              currentListTodos: selectedListTodos,
-              lists,
-              todosJson
-            });
-          });
-        }
-      }).sort([
-        ['updatedAt', -1] // change this to change how it sorts
-      ]);
-    });
+          }
+        })
+        .sort([
+          ['updatedAt', -1] // change this to change how it sorts
+        ]);
+      });
+    } else {
+      console.log('no list found')
+    }
   });
 });
 
@@ -134,7 +132,7 @@ router.delete('/lists', function(req, res, next) {
 
 // SEARCH checklists
 router.get('/search', (req, res) => {
-  term = new RegExp(req.query.term, 'i');
+  const term = new RegExp(req.query.term, 'i');
 
   Checklist.find({'title': term}, function(err, lists) {
     if (err) { console.error(err) }

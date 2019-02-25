@@ -10,7 +10,7 @@
     <ul id="ul-of-list-names">
       {{#if lists}}
         {{#each lists as |list|}}
-        <a href="/lists/{{list._id}}">
+        <a onclick="getListItems('{{list._id}}')">
           <li class="left-list-name" id="{{list._id}}">{{list.title}}</li>
         </a>
         {{/each}}
@@ -29,14 +29,16 @@
       {{#if currentList}}
         {{#eq currentList.ownerUserId user._id}}
           <div class='list-title-and-reset-btn'>
-            <input id="current-list" listid="{{currentList._id}}"
+            <span id='list-title-container'>
+              <input id="current-list" listid="{{currentList._id}}"
             value="{{currentList.title}}" placeholder="List Name"
             oninput="saveListName('{{currentList._id}}')">
+            </span>
             <a class="reset butn butn-1" onclick="resetCheckboxes('{{currentList._id}}')">
               Reset
             </a>
           </div>
-          <ul class='to-do-ul'>
+          <ul class='to-do-ul' id="todos-container">
             {{#each currentListTodos as |todo|}}
               <div class="to-do-and-chkbox">
                 {{#if todo.completed}}
@@ -73,12 +75,5 @@
   </div>
 </div>
 
-<script>
-  {{#if todosJson}}
-    const currentListTodos = {{{todosJson}}};
-  {{else}}
-    const currentListTodos = [];
-  {{/if}}
-</script>
 <script src="/javascripts/checklist.js"></script>
 <script src="/javascripts/todo.js"></script>
