@@ -71,21 +71,19 @@ function getListItems(listId) {
 
 function createList() {
 
-  const li = document.createElement("li");
-  var prevSelected = document.getElementsByClassName('selected-list')[0];
-  // $("#first-list-butn").hide();
-  // console.log(prevSelected.classList);
+  const prevSelected = $('.selected-list')[0];
   axios.post('/lists', {})
     .then(res => {
-      newList = res.data;
-      li.setAttribute("class", "selected-list left-list-name");
-      li.setAttribute("id", newList._id);
-      li.appendChild(document.createTextNode("New List"));
-      listsContainer.insertBefore(li, listsContainer.firstChild);
+      list = res.data;
+      listsContainer.prepend(`
+        <a onclick="getListItems('${list._id}')">
+          <li class="left-list-name selected-list" id="${list._id}">${list.title}</li>
+        </a>
+      `);
       if (prevSelected) { // nil check
         prevSelected.classList.remove("selected-list");
       }
-      location.reload();
+      getListItems(list._id);
     })
     .catch(error => {
     console.error(error);
@@ -134,13 +132,8 @@ function saveListName(currentListId) {
 /************************
       SEARCH LISTS
 ************************/
-function search(event) {
+function search() {
   const currentListId = $(`#current-list`).attr("listid");
-  // let currentListId = 0;
-  // if (currentLists !== []) { // nil check
-  //   currentListId = currentLists[0].id;
-  // }
-  console.log('currentListId is: ', currentListId);
   clearTimeout(timeout);
   const searchTerm = document.getElementById('search-lists-input').value
   console.log('searching for', searchTerm);
@@ -158,9 +151,11 @@ function search(event) {
           <li class="search-results-txt">No results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
         `);
       } else {
-        listsContainer.append(`
-          <li class="search-results-txt">Showing results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
-        `)
+        if (searchTerm) {
+          listsContainer.append(`
+            <li class="search-results-txt">Showing results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
+          `);
+        }
         response.data.forEach(function(list) {
           if (list._id === currentListId) {
             listsContainer.append(`
