@@ -279,10 +279,15 @@ nav li {
   padding: calc(var(--input-padding) / 2);
 }
 
-.search-form button {
+#search-lists-btn {
   color: var(--white);
   background-color: var(--green);
   border: none;
+  cursor: pointer;
+}
+
+#search-lists-btn:hover {
+  background-color: var(--dark-green);
 }
 
 .search-results-txt {
