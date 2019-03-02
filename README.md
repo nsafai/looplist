@@ -13,6 +13,12 @@ To run this on your machine:
 4. Run `npm start` or `nodemon` to run the project on a local server on your machine
 5. View the local version of the project at `http://localhost:3000`
 
+## Required ENV Variables
+`MLAB_URI`
+`DB_USER`
+`DB_PASSWORD`
+`SESSION_CODE`
+
 ## Deployment
 
 This product will be deployed via Heroku. A link to the live project will be provided here shortly.
@@ -36,6 +42,7 @@ This product will be deployed via Heroku. A link to the live project will be pro
 * mongoose-unique-validator
 * morgan
 * node.js
+* socket.io
 
 ## Contributing
 
