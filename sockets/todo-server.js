@@ -67,4 +67,20 @@ module.exports = (io, socket) => {
         });
     });
   })
+
+  /***********************
+  *     TOGGLE TODO         
+  ***********************/
+  socket.on('toggle-todo', (todosToUpdate) => {
+    todosToUpdate.forEach((todo) => {
+      let todoId = todo.id;
+      let todoCompletion = todo.completed;
+      Todo.findByIdAndUpdate(todoId, { // TODO: change to findOneAndUpdate
+          $set: { completed: todoCompletion }
+        }, (err) => {
+          if (err) return console.error(err);
+        });
+    })
+    socket.emit('toggle-todo');
+  })
 }

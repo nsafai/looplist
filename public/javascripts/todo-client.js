@@ -96,3 +96,48 @@ $(".to-do-ul").on('keydown', function(e) {
     }
   }
 });
+
+/************************
+ SELECT/DESELECT CHECKBOX
+************************/
+let todosToUpdate = [];
+
+function toggleCompletion(todosToUpdate) {
+  socket.emit('toggle-todo', todosToUpdate);
+}
+
+// on server response
+socket.on('toggle-todo', () => {
+  todosToUpdate = [];
+})
+
+// triggered when checking a box
+function checkbox(todoId) {
+  clearTimeout(timeout);
+  const todoCheckbox = document.getElementById('chk-' + todoId)
+  todoCheckbox.classList.remove('fa-circle');
+  todoCheckbox.classList.add('fa-check-circle');
+  todoCheckbox.setAttribute("onClick", `uncheckbox('${todoId}')`);
+  const completed = todoCheckbox.classList.contains('fa-check-circle');
+  todosToUpdate.push({ id: todoId, completed: completed });
+  console.log("todosToUpdate: " + todosToUpdate);
+  timeout = setTimeout(function () {
+    toggleCompletion(todosToUpdate);
+  }, stillEditingDelay);
+}
+
+// triggered when un-checking a box
+function uncheckbox(todoId) {
+  clearTimeout(timeout);
+  const todoCheckbox = document.getElementById('chk-' + todoId)
+  // add that id to an array
+  todoCheckbox.classList.remove('fa-check-circle');
+  todoCheckbox.classList.add('fa-circle');
+  todoCheckbox.setAttribute("onClick", `checkbox('${todoId}')`);
+  const completed = todoCheckbox.classList.contains('fa-check-circle');
+  todosToUpdate.push({ id: todoId, completed: completed });
+  console.log("todosToUpdate: " + todosToUpdate);
+  timeout = setTimeout(function () {
+    toggleCompletion(todosToUpdate);
+  }, stillEditingDelay);
+}
