@@ -9,7 +9,7 @@ var timeout = null;
 var stillEditingDelay = 200;
 
 /************************
-     ADDING TO-DO'S
+     CREATE TO-DO'S
 ************************/
 function createTodo(sender) {
   let currentListId = document.getElementById('current-list').getAttribute("listid");
@@ -48,3 +48,18 @@ $(".to-do-ul").on('keyup', function(e) {
 $(".new-todo-link").on('click', function(e) {
   createTodo('button');
 });
+
+/************************
+      SAVE TO-DOS
+************************/
+function saveTodo(todoId) {
+  clearTimeout(timeout);
+  timeout = setTimeout(function () {
+    var todoInputValue = document.getElementById(todoId).value;
+    console.log('timer finished! saving now.');
+    socket.emit('save-todo', {
+      todoId: todoId,
+      todoInputValue: todoInputValue
+    })
+  }, stillEditingDelay);
+}

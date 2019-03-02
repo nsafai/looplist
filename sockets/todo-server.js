@@ -12,7 +12,7 @@ module.exports = (io, socket) => {
   const Todo = require('../models/todo');
 
   /***********************
-  *       GET LIST         
+  *       GET LIST       
   ***********************/
   socket.on('create-todo', (currentListId, sender) => {
     console.log('got a create todo request for checklistId: ' + currentListId);
@@ -33,5 +33,20 @@ module.exports = (io, socket) => {
           })
         });
     });
+  })
+
+  /***********************
+  *       SAVE TODO         
+  ***********************/
+  socket.on('save-todo', (todoData) => {
+    const { todoId, todoInputValue } = todoData;
+    console.log('got a save request for todo.id: ' + todoId);
+    Todo.findByIdAndUpdate(
+      todoId, { 
+        $set: { name: todoInputValue } 
+      }, (err) => {
+        if (err) return console.error(err);
+      });
+      console.log('successfully saved todo.id: ' + todoId);
   })
 }
