@@ -4,23 +4,6 @@ const Checklist = require('../models/checklist');
 const Todo = require('../models/todo');
 const auth = require('./helpers/auth');
 
-// // DELETE todos
-// router.delete('/delete-todo', auth.requireLogin, function(req, res, next) {
-//   const todoId = req.query.id;
-//   console.log('got a delete request for todo.id: ' + todoId);
-//   Todo.findByIdAndRemove(todoId, function(err, todo) {
-//     if(err) { res.send(err) }
-//     console.log('found todo to delete');
-//     Checklist.findByIdAndUpdate(todo.checklistId, {
-//           $pull: { todoItems: todoId }}, function(err, checklist) {
-//           if (err) { res.send(err) };
-//           console.log('found checklist to update');
-//           console.log('todo item with id: ' + todoId + ' was successfully deleted and removed from checklist');
-//           return res.send('todo item with id: ' + todoId + ' was successfully deleted');
-//         });
-//   });
-// });
-
 // TOGGLE todo
 router.post('/toggle-todo', auth.requireLogin, function(req, res, next) {
   const todosToUpdate = req.body.todosToUpdate;

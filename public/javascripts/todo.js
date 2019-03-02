@@ -1,35 +1,3 @@
-// /************************
-//     REMOVING TO-DO'S
-// ************************/
-
-// $(".to-do-ul").on('keyup', function(e) {
-//   if (document.activeElement.value == "") {
-//     // todo item is empty, user may be trying to delete that field
-//     if (e.keyCode == 8) { // someone pressed backspace
-//       const todoId = document.activeElement.getAttribute("todoid");
-//       const activeInput = $(`#${todoId}`);
-//       const prevInput = activeInput.parent().prev().find('.to-do-input');
-//       deleteTodo(todoId, activeInput, prevInput);
-//     }
-//   }
-// });
-
-// function deleteTodo(todoId, activeInput, prevInput) {
-//   axios.delete('/delete-todo', {
-//     params: { id: todoId }
-//   }).then(res => {
-//     console.log(res.data);
-//     activeInput.parent().remove();
-//     // prevInput.focus().val(prevInput.val());
-//     var prevInputLength= prevInput.val().length;
-//     prevInput.focus();
-//     prevInput[0].setSelectionRange(prevInputLength, prevInputLength);
-//     // ^ by focusing then resetting value, cursor is at end of text field
-//   }).catch(error => {
-//     console.error(error);
-//   });
-// }
-
 /************************
  SELECT/DESELECT CHECKBOX
 ************************/
