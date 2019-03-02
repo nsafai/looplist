@@ -1,21 +1,22 @@
 /**********************************************
 *         CLIENT SOCKET "CHECKLIST"         
 **********************************************/
+// socket setup
 const socket = io.connect();
 
-// var timeout = null;
-// var stillEditingDelay = 800;
+// only fire requests once every 200 ms, timeout resets on every edit
+var timeout = null;
+var stillEditingDelay = 200;
 
-// /************************
-// * SETUP/SELECT TOP LIST *
-// ************************/
+// set first list as selected by default
+$('#ul-of-list-names li:first').addClass('selected-list');
 
-// $('#ul-of-list-names li:first').addClass('selected-list');
-// const listsContainer = $('#ul-of-list-names');
-// const todosContainer = $('#todos-container');
-// const listTitleContainer = $('#list-title-container');
-// const listViewContainer = $('#list-items-view');
-// const listViewHelperText = $('#select-a-list-helper-div');
+// get references to some HTML elements
+const listsContainer = $('#ul-of-list-names');
+const todosContainer = $('#todos-container');
+const listTitleContainer = $('#list-title-container');
+const listViewContainer = $('#list-items-view');
+const listViewHelperText = $('#select-a-list-helper-div');
 
 /***********************
 *     GET LIST        
@@ -121,3 +122,63 @@ function saveListName(currentListId) {
     })
   }, stillEditingDelay);
 }
+
+/************************
+      SEARCH LISTS
+************************/
+function search() {
+  const currentUserId = $('#user-id').val();
+  const searchTerm = $('#search-lists-input').val();
+  console.log('searching for', searchTerm);
+  socket.emit('search', { 
+    searchTerm, 
+    currentUserId,
+  });
+}
+
+// BUTTON AND KEYBOARD LISTENERS
+$('#search-lists-input').on('input', function(event) {
+  timeout = setTimeout(function () {
+    search();
+  }, stillEditingDelay);
+})
+
+$('#search-lists-btn').click(function(event) {
+  event.preventDefault();
+  search();
+})
+
+// on response from server
+socket.on('search', (results) => {
+  const currentListId = $(`#current-list`).attr("listid");
+  const { lists, searchTerm } = results;
+
+  listsContainer.empty();
+  
+  if (lists.length === 0) {
+    listsContainer.append(`
+      <li class="search-results-txt">No results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
+    `);
+  } else {
+    if (searchTerm) {
+      listsContainer.append(`
+        <li class="search-results-txt">Showing results for "<span class="bold-help-txt">${searchTerm}</span>"</li>
+      `);
+    }
+    lists.forEach(function(list) {
+      if (list._id === currentListId) {
+        listsContainer.append(`
+        <a onclick="getListItems('${list._id}')">
+          <li class="left-list-name selected-list" id="${list._id}">${list.title}</li>
+        </a>
+      `);
+      } else {
+        listsContainer.append(`
+        <a onclick="getListItems('${list._id}')">
+          <li class="left-list-name" id="${list._id}">${list.title}</li>
+        </a>
+      `);
+      }
+    });
+  }
+})

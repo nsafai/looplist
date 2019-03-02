@@ -71,9 +71,29 @@ module.exports = (io, socket) => {
     Checklist.findByIdAndUpdate(
       currentListId, {
         $set: { title: newListName }
-      },
-      function(err) {
+      }, (err) => {
         if (err) return console.error(err);
       });
+  })
+
+  /***********************
+  *     SEARCH LISTS      
+  ***********************/
+  socket.on('search', (searchData) => {
+    console.log('search data is:', searchData);
+    const { searchTerm, currentUserId } = searchData;
+    const query = new RegExp(searchTerm, 'i');
+    console.log('user', currentUserId, ' searching for:', searchTerm)
+
+    Checklist.find({
+        'title': query,
+        'ownerUserId': currentUserId,
+      }, (err, lists) => {
+        if (err) { console.error(err) }
+        socket.emit('search', {
+          searchTerm,
+          lists, // results are lists
+        }); 
+      })
   })
 }

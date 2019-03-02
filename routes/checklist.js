@@ -46,42 +46,4 @@ router.get('/lists', auth.requireLogin, (req, res, next) => {
   ]);
 });
 
-// POST/CREATE Checklist
-router.post('/lists', function(req, res, next) {
-  currentUserId = res.locals.user._id;
-
-  let list = new Checklist({
-    title: 'New List',
-    ownerUserId: currentUserId
-  });
-  console.log('list: ' + list);
-  list.save(function(err, list) {
-    if (err) {
-      console.error(err)
-    };
-    return res.send(list);
-  });
-});
-
-// SEARCH checklists
-router.get('/search', (req, res) => {
-  const term = new RegExp(req.query.term, 'i');
-  let currentUserId = res.locals.user._id;
-
-  Checklist
-    .find({
-      'title': term,
-      'ownerUserId': currentUserId,
-    }, function(err, lists) {
-      if (err) { console.error(err) }
-      else {
-        res.send(lists);
-      }
-    })
-    .sort([
-      ['updatedAt', -1] // change this to change how it sorts
-    ]);
-});
-
-
 module.exports = router;
