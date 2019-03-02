@@ -13,31 +13,6 @@ const listViewContainer = $('#list-items-view');
 const listViewHelperText = $('#select-a-list-helper-div');
 
 /************************
-      ADDING LISTS
-************************/
-
-function createList() {
-
-  const prevSelected = $('.selected-list')[0];
-  axios.post('/lists', {})
-    .then(res => {
-      list = res.data;
-      listsContainer.prepend(`
-        <a onclick="getListItems('${list._id}')">
-          <li class="left-list-name selected-list" id="${list._id}">${list.title}</li>
-        </a>
-      `);
-      if (prevSelected) { // nil check
-        prevSelected.classList.remove("selected-list");
-      }
-      getListItems(list._id);
-    })
-    .catch(error => {
-    console.error(error);
-    });
-}
-
-/************************
       REMOVING LISTS
 ************************/
 function deleteList() {

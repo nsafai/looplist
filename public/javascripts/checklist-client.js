@@ -30,7 +30,6 @@ function getListItems(listId) {
   }
   const newCurrentList = $(`#${listId}`);
   newCurrentList.addClass('selected-list');
-
   socket.emit('get-list', listId);
 }
 
@@ -64,5 +63,30 @@ socket.on('get-list', (listData) => {
       </div>
     `)
     }
-  });
+  })
+})
+
+/************************
+     CREATE NEW LIST
+************************/
+
+function createList(currentUserId) {
+  console.log('user trying to create list', currentUserId);
+  // send request to server
+  socket.emit('new-list', currentUserId);
+}
+
+// on response from server
+socket.on('new-list', (listData) => {
+  const prevSelected = $('.selected-list')[0];
+  list = listData;
+  listsContainer.prepend(`
+    <a onclick="getListItems('${list._id}')">
+      <li class="left-list-name selected-list" id="${list._id}">${list.title}</li>
+    </a>
+  `);
+  if (prevSelected) { // nil check
+    prevSelected.classList.remove("selected-list");
+  }
+  getListItems(list._id);
 })
