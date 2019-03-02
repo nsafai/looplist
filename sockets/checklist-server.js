@@ -51,4 +51,15 @@ module.exports = (io, socket) => {
       socket.emit('new-list', savedList);
     });
   })
+
+  /***********************
+  *      DELETE LIST         
+  ***********************/
+  socket.on('delete-list', (listId) => {
+    console.log('got a delete request with: ' + listId);
+    Checklist.findByIdAndRemove(listId, (err) => {
+      if (err) return console.log(err); 
+      socket.emit('delete-list', listId);
+    });
+  })
 }

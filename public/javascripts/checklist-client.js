@@ -67,7 +67,7 @@ socket.on('get-list', (listData) => {
 })
 
 /************************
-     CREATE NEW LIST
+      CREATE LIST
 ************************/
 
 function createList(currentUserId) {
@@ -89,4 +89,17 @@ socket.on('new-list', (listData) => {
     prevSelected.classList.remove("selected-list");
   }
   getListItems(list._id);
+})
+
+/************************
+     REMOVING LISTS
+************************/
+function deleteList(listId) {
+  socket.emit('delete-list', listId);
+}
+
+// on response from server
+socket.on('delete-list', (listId) => {
+  console.log('list', listId, ' was successfully deleted')
+  window.location = "/lists";
 })

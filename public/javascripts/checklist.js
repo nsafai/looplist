@@ -13,22 +13,6 @@ const listViewContainer = $('#list-items-view');
 const listViewHelperText = $('#select-a-list-helper-div');
 
 /************************
-      REMOVING LISTS
-************************/
-function deleteList() {
-  currentListId = document.getElementById('current-list').getAttribute("listid")
-  axios.delete('/lists', {
-    params: { id: currentListId }
-  })
-    .then(res => {
-      window.location = "/lists";
-    })
-    .catch(error => {
-      console.error(error);
-    });
-}
-
-/************************
      SAVING LIST NAME
 ************************/
 

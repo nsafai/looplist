@@ -78,16 +78,6 @@ router.post('/save-list-name', auth.requireLogin, function(req, res, next) {
     });
 });
 
-// DELETE checklist
-router.delete('/lists', function(req, res, next) {
-  listId = req.query.id;
-  console.log('got a delete request with: ' + listId);
-  Checklist.findByIdAndRemove(listId, function(err){
-    if(err){ res.send(err); }
-    return res.send('successfully deleted a checklist with Id: ' + listId);
-  });
-});
-
 // SEARCH checklists
 router.get('/search', (req, res) => {
   const term = new RegExp(req.query.term, 'i');
