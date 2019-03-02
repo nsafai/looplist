@@ -86,7 +86,8 @@ socket.on('delete-todo', (todoId) => {
 })
 
 // BACKSPACE KEY EVENT LISTENER
-$(".to-do-ul").on('keyup', function(e) {
+$(".to-do-ul").on('keydown', function(e) {
+  console.log(document.activeElement.value);
   if (document.activeElement.value == "") {
     // todo item is empty, user may be trying to delete that field
     if (e.keyCode == 8) { // someone pressed backspace
