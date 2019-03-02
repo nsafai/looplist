@@ -3,23 +3,31 @@ const MLAB_URI = process.env.MLAB_URI;
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const bcrypt = require('bcryptjs');
 
-var indexRouter = require('./routes/index');
-var checklistRouter = require('./routes/checklist');
-var todoRouter = require('./routes/todo');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const checklistRouter = require('./routes/checklist');
+const todoRouter = require('./routes/todo');
+const usersRouter = require('./routes/users');
 
-var app = express();
+const app = express();
+const server = require('http').Server(app);
 
 // configure sessions
 const session = require('express-session');
 app.use(session({ secret: '${SESSION_CODE}', cookie: { maxAge: 3600000 }, resave: true, saveUninitialized: true }));
+
+//Socket.io init
+const io = require('socket.io')(server);
+io.on("connection", (socket) => {
+  console.log("🔌 New user connected! 🔌");
+  require('./sockets/checklist-server.js')(io, socket);
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -70,6 +78,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // for heroku
 const port = process.env.PORT || 3000;
-app.listen(port);
+server.listen(port);
 
 module.exports = app;

@@ -46,48 +46,6 @@ router.get('/lists', auth.requireLogin, (req, res, next) => {
   ]);
 });
 
-// GET SPECIFIC List
-router.get('/lists/:id', auth.requireLogin, (req, res, next) => {
-  // console.log(req.params.id);
-  selectedListId = req.params.id;
-  Checklist.findById(selectedListId, function(err, selectedList) {
-    if (err) { console.error(err) }
-    if (selectedList) {
-      selectedList.updatedAt = Date.now();
-      // selectedList.save();
-      selectedList.save(function(err) {
-        if (err) { console.error(err) };
-        Checklist.find({
-            ownerUserId: res.locals.user._id
-          }, function(err, lists) {
-          if (err) { console.error(err) }
-          else {
-            Todo.find({'_id': {
-              $in: selectedList.todoItems
-            }}, function(err, selectedListTodos) {
-              const todosString = selectedListTodos.map((item) => {
-                const { id, name, completed } = item
-
-                return { id: id.toString(), name, completed }
-              });
-              return res.send({
-                currentList: selectedList,
-                currentListTodos: selectedListTodos,
-                lists,
-              });
-            });
-          }
-        })
-        .sort([
-          ['updatedAt', -1] // change this to change how it sorts
-        ]);
-      });
-    } else {
-      console.log('no list found')
-    }
-  });
-});
-
 // POST/CREATE Checklist
 router.post('/lists', function(req, res, next) {
   currentUserId = res.locals.user._id;
