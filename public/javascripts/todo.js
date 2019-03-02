@@ -1,49 +1,49 @@
 // Init a timeout variable to be used below
-var timeout = null;
-var stillEditingDelay = 800;
+// var timeout = null;
+// var stillEditingDelay = 800;
 
 /************************
      ADDING TO-DO'S
 ************************/
 
 // press enter button at end of line to create new todo
-$(".to-do-ul").on('keyup', function(e) {
-  if (e.keyCode == 13) {
-    const todoId = document.activeElement.getAttribute("todoid");
-    // createTodo(todoId);
-    createTodo('button');
-  }
-});
+// $(".to-do-ul").on('keyup', function(e) {
+//   if (e.keyCode == 13) {
+//     const todoId = document.activeElement.getAttribute("todoid");
+//     // createTodo(todoId);
+//     createTodo('button');
+//   }
+// });
 
-// clicked [new todo] button
-$(".new-todo-link").on('click', function(e) {
-  createTodo('button');
-});
+// // clicked [new todo] button
+// $(".new-todo-link").on('click', function(e) {
+//   createTodo('button');
+// });
 
-function createTodo(sender) {
-  let currentListId = document.getElementById('current-list').getAttribute("listid");
-  axios.post('/create-todo', {
-    currentListId: currentListId
-  }).then(res => {
-    const todo = res.data;
-    console.log('successfully created new todo with ID: ' + todo._id);
-    const todoHTML = `<div class="to-do-and-chkbox">
-        <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
-        <input class='to-do-input' value="" id="${todo._id}"
-        todoid="${todo._id}" oninput="saveTodo('${todo._id}')">
-      </div>`;
-    if (sender == 'button') {
-      $('.to-do-ul').append(todoHTML);
-    } else {
-      // sender contains ID of todo field user pressed ENTER on
-      const activeInput = $(`#${sender}`)
-      activeInput.parent().after(todoHTML);
-    }
-    document.getElementById(todo._id).focus();
-  }).catch(error => {
-    console.error(error);
-  });
-}
+// function createTodo(sender) {
+//   let currentListId = document.getElementById('current-list').getAttribute("listid");
+//   axios.post('/create-todo', {
+//     currentListId: currentListId
+//   }).then(res => {
+//     const todo = res.data;
+//     console.log('successfully created new todo with ID: ' + todo._id);
+//     const todoHTML = `<div class="to-do-and-chkbox">
+//         <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
+//         <input class='to-do-input' value="" id="${todo._id}"
+//         todoid="${todo._id}" oninput="saveTodo('${todo._id}')">
+//       </div>`;
+//     if (sender == 'button') {
+//       $('.to-do-ul').append(todoHTML);
+//     } else {
+//       // sender contains ID of todo field user pressed ENTER on
+//       const activeInput = $(`#${sender}`)
+//       activeInput.parent().after(todoHTML);
+//     }
+//     document.getElementById(todo._id).focus();
+//   }).catch(error => {
+//     console.error(error);
+//   });
+// }
 
 /************************
     REMOVING TO-DO'S

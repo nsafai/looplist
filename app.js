@@ -27,6 +27,7 @@ const io = require('socket.io')(server);
 io.on("connection", (socket) => {
   console.log("🔌 New user connected! 🔌");
   require('./sockets/checklist-server.js')(io, socket);
+  require('./sockets/todo-server.js')(io, socket);
 })
 
 // view engine setup

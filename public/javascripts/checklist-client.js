@@ -136,18 +136,6 @@ function search() {
   });
 }
 
-// BUTTON AND KEYBOARD LISTENERS
-$('#search-lists-input').on('input', function(event) {
-  timeout = setTimeout(function () {
-    search();
-  }, stillEditingDelay);
-})
-
-$('#search-lists-btn').click(function(event) {
-  event.preventDefault();
-  search();
-})
-
 // on response from server
 socket.on('search', (results) => {
   const currentListId = $(`#current-list`).attr("listid");
@@ -181,4 +169,16 @@ socket.on('search', (results) => {
       }
     });
   }
+})
+
+// SEARCH KEYBOARD EVENT LISTENER
+$('#search-lists-input').on('input', function(event) {
+  timeout = setTimeout(function () {
+    search();
+  }, stillEditingDelay);
+})
+// SEARCH BTN EVENT LISTENER
+$('#search-lists-btn').click(function(event) {
+  event.preventDefault();
+  search();
 })

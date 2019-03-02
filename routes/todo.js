@@ -4,25 +4,25 @@ const Checklist = require('../models/checklist');
 const Todo = require('../models/todo');
 const auth = require('./helpers/auth');
 
-// POST/CREATE Todo
-router.post('/create-todo', auth.requireLogin, function(req, res, next) {
-  const currentListId = req.body.currentListId;
-  console.log('got a create todo request for checklistId: ' + currentListId);
-  let todo = new Todo({
-    name: '',
-    checklistId: currentListId
-  });
-  todo.save(function(err, todo) {
-    if (err) { console.error(err) };
-    Checklist.findByIdAndUpdate(currentListId, {
-        $addToSet: { todoItems: todo._id } },
-      function(err, checklist) {
-        if (err) { console.error(err) }
-        console.log('successfully created new todo with ID: ' + todo._id);
-        return res.send(todo);
-      });
-  });
-});
+// // POST/CREATE Todo
+// router.post('/create-todo', auth.requireLogin, function(req, res, next) {
+//   const currentListId = req.body.currentListId;
+//   console.log('got a create todo request for checklistId: ' + currentListId);
+//   let todo = new Todo({
+//     name: '',
+//     checklistId: currentListId
+//   });
+//   todo.save(function(err, todo) {
+//     if (err) { console.error(err) };
+//     Checklist.findByIdAndUpdate(currentListId, {
+//         $addToSet: { todoItems: todo._id } },
+//       function(err, checklist) {
+//         if (err) { console.error(err) }
+//         console.log('successfully created new todo with ID: ' + todo._id);
+//         return res.send(todo);
+//       });
+//   });
+// });
 
 // PUT / EDIT / SAVE / UPDATE todo
 router.post('/save-todo', auth.requireLogin, function(req, res, next) {
