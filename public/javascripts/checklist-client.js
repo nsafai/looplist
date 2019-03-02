@@ -3,19 +3,19 @@
 **********************************************/
 const socket = io.connect();
 
-var timeout = null;
-var stillEditingDelay = 800;
+// var timeout = null;
+// var stillEditingDelay = 800;
 
-/************************
-* SETUP/SELECT TOP LIST *
-************************/
+// /************************
+// * SETUP/SELECT TOP LIST *
+// ************************/
 
-$('#ul-of-list-names li:first').addClass('selected-list');
-const listsContainer = $('#ul-of-list-names');
-const todosContainer = $('#todos-container');
-const listTitleContainer = $('#list-title-container');
-const listViewContainer = $('#list-items-view');
-const listViewHelperText = $('#select-a-list-helper-div');
+// $('#ul-of-list-names li:first').addClass('selected-list');
+// const listsContainer = $('#ul-of-list-names');
+// const todosContainer = $('#todos-container');
+// const listTitleContainer = $('#list-title-container');
+// const listViewContainer = $('#list-items-view');
+// const listViewHelperText = $('#select-a-list-helper-div');
 
 /***********************
 *     GET LIST        
