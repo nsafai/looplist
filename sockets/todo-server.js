@@ -83,4 +83,25 @@ module.exports = (io, socket) => {
     })
     socket.emit('toggle-todo');
   })
+
+  /***********************
+  *    RESET ALL TODOS         
+  ***********************/
+
+  // RESET ALL todos
+  socket.on('reset-all-todos', (checklistId) => {
+    console.log('got a request to reset all todos');
+    Checklist.findById(checklistId, function(err, checklist){
+      if (err) return console.log(err);
+      let todosArray = checklist.todoItems;
+      todosArray.forEach((todo) => {
+        Todo.findByIdAndUpdate(todo._id, {
+          $set: { completed: false}
+          }, (error) => {
+            if (error) return console.error(err);
+          });
+      });
+      socket.emit('reset-all-todos');
+    });
+  })
 }

@@ -141,3 +141,20 @@ function uncheckbox(todoId) {
     toggleCompletion(todosToUpdate);
   }, stillEditingDelay);
 }
+
+/************************
+   RESET ALL CHECKBOXES
+************************/
+function resetCheckboxes(checklistId) {
+  socket.emit('reset-all-todos', checklistId);
+}
+
+// on server response
+socket.on('reset-all-todos', () => {
+  console.log('todos were reset');
+  let checkboxes = document.getElementsByClassName('chkbox');
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].classList.remove('fa-check-circle');
+    checkboxes[i].classList.add('fa-circle');
+  }
+})
