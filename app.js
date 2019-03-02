@@ -10,9 +10,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bcrypt = require('bcryptjs');
 
+// express router files
 const indexRouter = require('./routes/index');
 const checklistRouter = require('./routes/checklist');
-const todoRouter = require('./routes/todo');
 const usersRouter = require('./routes/users');
 
 const app = express();
@@ -22,7 +22,7 @@ const server = require('http').Server(app);
 const session = require('express-session');
 app.use(session({ secret: '${SESSION_CODE}', cookie: { maxAge: 3600000 }, resave: true, saveUninitialized: true }));
 
-//Socket.io init
+// Socket.io init
 const io = require('socket.io')(server);
 io.on("connection", (socket) => {
   console.log("🔌 New user connected! 🔌");
@@ -49,7 +49,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/', checklistRouter);
-app.use('/', todoRouter);
 app.use('/', usersRouter);
 
 // catch 404 and forward to error handler
