@@ -2,11 +2,11 @@
 
 A productivity tool. It lets users create checklists that they use on a regular basis and easily reset the checklist.
 
-![Screenshot of Loop List v1](/looplist-screenshot.png)
-
-## Try the live product!
+## Try the product
 
 The product is live and you can use it at [looplist.xyz](http://looplist.xyz)
+
+![Screenshot of Loop List v1](/looplist-screenshot.png)
 
 ## Getting Started
 
