@@ -63,21 +63,6 @@ router.post('/lists', function(req, res, next) {
   });
 });
 
-// PUT / EDIT / UPDATE checklist
-router.post('/save-list-name', auth.requireLogin, function(req, res, next) {
-  console.log(req.body);
-  checklistId = req.body.currentListId;
-  newListName = req.body.newListName;
-
-  Checklist.findByIdAndUpdate(
-    checklistId, {
-      $set: { title: newListName }
-    },
-    function(err) {
-      if (err) { console.error(err) };
-    });
-});
-
 // SEARCH checklists
 router.get('/search', (req, res) => {
   const term = new RegExp(req.query.term, 'i');

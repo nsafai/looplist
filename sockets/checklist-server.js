@@ -62,4 +62,18 @@ module.exports = (io, socket) => {
       socket.emit('delete-list', listId);
     });
   })
+
+  /***********************
+  *     SAVE LIST NAME         
+  ***********************/
+  socket.on('save-list-name', (listData) => {
+    const { currentListId, newListName } = listData;
+    Checklist.findByIdAndUpdate(
+      currentListId, {
+        $set: { title: newListName }
+      },
+      function(err) {
+        if (err) return console.error(err);
+      });
+  })
 }

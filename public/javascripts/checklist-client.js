@@ -103,3 +103,21 @@ socket.on('delete-list', (listId) => {
   console.log('list', listId, ' was successfully deleted')
   window.location = "/lists";
 })
+
+/************************
+     SAVING LIST NAME
+************************/
+function saveListName(currentListId) {
+  clearTimeout(timeout);
+  var listNameInputValue = document.getElementById('current-list').value;
+  // update list title inside left pane on each key stroke
+  var listNameLeftPane = document.getElementById(currentListId);
+  listNameLeftPane.innerHTML = listNameInputValue;
+  
+  timeout = setTimeout(function () {
+    socket.emit('save-list-name', {
+      currentListId: currentListId,
+      newListName: listNameInputValue
+    })
+  }, stillEditingDelay);
+}

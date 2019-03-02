@@ -1,5 +1,5 @@
 var timeout = null;
-var stillEditingDelay = 800;
+var stillEditingDelay = 200;
 
 /************************
 * SETUP/SELECT TOP LIST *
@@ -11,28 +11,6 @@ const todosContainer = $('#todos-container');
 const listTitleContainer = $('#list-title-container');
 const listViewContainer = $('#list-items-view');
 const listViewHelperText = $('#select-a-list-helper-div');
-
-/************************
-     SAVING LIST NAME
-************************/
-
-function saveListName(currentListId) {
-  clearTimeout(timeout);
-  var listNameInputValue = document.getElementById('current-list').value;
-  var listNameLeftPane = document.getElementById(currentListId);
-  listNameLeftPane.innerHTML = listNameInputValue;
-
-  timeout = setTimeout(function () {
-    axios.post('/save-list-name', {
-      currentListId: currentListId,
-      newListName: listNameInputValue
-    }).then(res => {
-      console.log(res);
-    }).catch(error => {
-      console.error(error);
-    });
-  }, stillEditingDelay);
-}
 
 
 /************************
