@@ -63,3 +63,35 @@ function saveTodo(todoId) {
     })
   }, stillEditingDelay);
 }
+
+/************************
+     DELETE TO-DO'S
+************************/
+function deleteTodo(todoId) {
+  socket.emit('delete-todo', todoId);
+}
+
+// on server response
+socket.on('delete-todo', (todoId) => {
+  console.log('todo item with id:', todoId, 'was successfully deleted');
+  // bring text cursor to previous input
+  const prevInput = $(`#${todoId}`).parent().prev().children('input').first();
+  prevInput.focus()
+  //  clear the value and then reset to bring cursor to end of input
+  var tmpStr = prevInput.val();
+  prevInput.val('');
+  prevInput.val(tmpStr);
+  // delete todo on frontend
+  $(`#${todoId}`).parent().remove();
+})
+
+// BACKSPACE KEY EVENT LISTENER
+$(".to-do-ul").on('keyup', function(e) {
+  if (document.activeElement.value == "") {
+    // todo item is empty, user may be trying to delete that field
+    if (e.keyCode == 8) { // someone pressed backspace
+      const todoId = document.activeElement.getAttribute("todoid");
+      deleteTodo(todoId);
+    }
+  }
+});

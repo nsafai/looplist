@@ -49,4 +49,22 @@ module.exports = (io, socket) => {
       });
       console.log('successfully saved todo.id: ' + todoId);
   })
+
+
+  /***********************
+  *     DELETE TODO         
+  ***********************/
+  socket.on('delete-todo', (todoId) => {
+    console.log('got a delete request for todo.id: ' + todoId);
+    Todo.findByIdAndRemove(todoId, (err, todo) => {
+      if (err) return console.log(err);
+      console.log('found todo to delete');
+      Checklist.findByIdAndUpdate(todo.checklistId, {
+        $pull: { todoItems: todoId }}, (err) => {
+          if (err) { res.send(err) };
+          console.log('todo item with id: ' + todoId + ' was successfully deleted and removed from checklist');
+          socket.emit('delete-todo', todoId);
+        });
+    });
+  })
 }

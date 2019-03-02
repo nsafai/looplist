@@ -4,40 +4,22 @@ const Checklist = require('../models/checklist');
 const Todo = require('../models/todo');
 const auth = require('./helpers/auth');
 
-// PUT / EDIT / SAVE / UPDATE todo
-// router.post('/save-todo', auth.requireLogin, function(req, res, next) {
-//   // console.log(req.body.todoId);
-//   const todoId = req.body.todoId;
-//   const todoInputValue = req.body.todoInputValue;
-//   console.log('got a save request for todo.id: ' + todoId);
-//   Todo.findByIdAndUpdate(
-//     todoId, {
-//       $set: {
-//         name: todoInputValue
-//       }
-//     },
-//     function(err) {
-//       if (err) { console.error(err) };
-//     });
-//     console.log('successfully saved todo.id: ' + todoId);
+// // DELETE todos
+// router.delete('/delete-todo', auth.requireLogin, function(req, res, next) {
+//   const todoId = req.query.id;
+//   console.log('got a delete request for todo.id: ' + todoId);
+//   Todo.findByIdAndRemove(todoId, function(err, todo) {
+//     if(err) { res.send(err) }
+//     console.log('found todo to delete');
+//     Checklist.findByIdAndUpdate(todo.checklistId, {
+//           $pull: { todoItems: todoId }}, function(err, checklist) {
+//           if (err) { res.send(err) };
+//           console.log('found checklist to update');
+//           console.log('todo item with id: ' + todoId + ' was successfully deleted and removed from checklist');
+//           return res.send('todo item with id: ' + todoId + ' was successfully deleted');
+//         });
+//   });
 // });
-
-// DELETE todos
-router.delete('/delete-todo', auth.requireLogin, function(req, res, next) {
-  const todoId = req.query.id;
-  console.log('got a delete request for todo.id: ' + todoId);
-  Todo.findByIdAndRemove(todoId, function(err, todo) {
-    if(err) { res.send(err) }
-    console.log('found todo to delete');
-    Checklist.findByIdAndUpdate(todo.checklistId, {
-          $pull: { todoItems: todoId }}, function(err, checklist) {
-          if (err) { res.send(err) };
-          console.log('found checklist to update');
-          console.log('todo item with id: ' + todoId + ' was successfully deleted and removed from checklist');
-          return res.send('todo item with id: ' + todoId + ' was successfully deleted');
-        });
-  });
-});
 
 // TOGGLE todo
 router.post('/toggle-todo', auth.requireLogin, function(req, res, next) {
