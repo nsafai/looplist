@@ -52,7 +52,7 @@
                   <!-- tabindex -1 so tab button skips chkbox and cycles inputs -->
                 {{/if}}
                 <input class='to-do-input' value="{{todo.name}}" id="{{todo._id}}" autocomplete="off"
-                todoid="{{todo._id}}" oninput="saveTodo('{{todo._id}}')">
+                todoid="{{todo._id}}" todoIndex={{@index}} oninput="saveTodo('{{todo._id}}')">
               </div>
             {{/each}}
           </ul>

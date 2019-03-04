@@ -46,14 +46,16 @@ socket.on('get-list', (listData) => {
     oninput="saveListName('${currentList._id}')"></input>
   `)
   todosContainer.empty()
+  let currentTodoIdx = 1;
   currentListTodos.forEach((todo) => {
+    todoIndex = todo.index || currentTodoIdx
     if (todo.completed) {
       todosContainer.append(`
       <div class="to-do-and-chkbox">
         <a class="chkbox far fa-check-circle" id="chk-${todo._id}"
         onClick="uncheckbox('${todo._id}')" tabindex="-1"></a>
         <input class='to-do-input' value="${todo.name}" id="${todo._id}" autocomplete="off"
-        todoid="${todo._id}" oninput="saveTodo('${todo._id}')">
+        todoid="${todo._id}" todoIndex=${todoIndex} oninput="saveTodo('${todo._id}')">
       </div>
       `)
     } else {
@@ -62,10 +64,11 @@ socket.on('get-list', (listData) => {
           <a class="chkbox far fa-circle" id="chk-${todo._id}"
           onClick="checkbox('${todo._id}')" tabindex="-1"></a>
           <input class='to-do-input' value="${todo.name}" id="${todo._id}" autocomplete="off"
-          todoid="${todo._id}" oninput="saveTodo('${todo._id}')">
+          todoid="${todo._id}" todoIndex=${todoIndex} oninput="saveTodo('${todo._id}')">
         </div>
       `)
     }
+    currentTodoIdx += 1;
   })
 })
 

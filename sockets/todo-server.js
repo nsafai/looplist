@@ -30,7 +30,7 @@ module.exports = (io, socket) => {
       }, (error) => {
         if (error) { console.error(error) }
         console.log(`successfully created new todo: ${todoInDB}`)
-        socket.emit('create-todo', todoInDB.id)
+        socket.emit('create-todo', todoInDB)
       })
     })
   })

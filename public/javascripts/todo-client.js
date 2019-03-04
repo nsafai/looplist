@@ -16,12 +16,14 @@ function createTodo() {
 }
 
 // on response from server
-socket.on('create-todo', (todoId) => {
+socket.on('create-todo', (todo) => {
+  const todoId = todo._id;
+  const todoIndex = todo.index;
   const todoHTML = `
     <div class="to-do-and-chkbox">
       <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
       <input class='to-do-input' value="" id="${todoId}" autocomplete="off"
-      todoid="${todoId}" oninput="saveTodo('${todoId}')">
+      todoid="${todoId}" todoIndex=${todo.index} oninput="saveTodo('${todoId}')">
     </div>`
   todosContainer.append(todoHTML)
   document.getElementById(todoId).focus()
