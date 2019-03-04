@@ -18,7 +18,6 @@ function createTodo() {
 // on response from server
 socket.on('create-todo', (todo) => {
   const todoId = todo._id;
-  const todoIndex = todo.index;
   const todoHTML = `
     <div class="to-do-and-chkbox">
       <a class="chkbox far fa-circle" href="" tabindex="-1"></a>

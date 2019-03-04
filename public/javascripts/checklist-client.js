@@ -46,7 +46,7 @@ socket.on('get-list', (listData) => {
     oninput="saveListName('${currentList._id}')"></input>
   `)
   todosContainer.empty()
-  let currentTodoIdx = 1;
+  let currentTodoIdx = 0;
   currentListTodos.forEach((todo) => {
     todoIndex = todo.index || currentTodoIdx
     if (todo.completed) {
