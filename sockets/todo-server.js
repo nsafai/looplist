@@ -29,7 +29,7 @@ module.exports = (io, socket) => {
       // })
       Checklist.findByIdAndUpdate(currentListId, {
         $addToSet: { todoItems: todo.id },
-      }, (error, checklist) => {
+      }, (error) => {
         if (error) { console.error(error) }
         // eslint-disable-next-line no-param-reassign
         todo.index = todoIndex

@@ -1,11 +1,11 @@
+/* eslint-disable newline-per-chained-call */
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /**********************************************
 *         TODO SOCKET "CHECKLIST"
 **********************************************/
-// socket setup
-// const socket = io.connect()
 
 let createSender = null; // tells us whether button or enter key sent create request
 /************************
@@ -42,9 +42,7 @@ socket.on('create-todo', (todo) => {
     $('#todos-container').append(todoHTML);
   }
   document.getElementById(todo._id).focus()
-  // update todo index after todoindex
-  console.log('there are', $('#todos-container')[0].children.length, 'todos in the list')
-  console.log('need to update todos after index', todo.index)
+  updateTodoIndices()
 })
 
 // press enter button at end of line to create new todo
@@ -65,16 +63,15 @@ $('.new-todo-link').on('click', (e) => {
       SAVE TO-DOS
 ************************/
 function saveTodo(todoId) {
-  clearTimeout(timeout)
-  timeout = setTimeout(() => {
-    const todoInputValue = document.getElementById(todoId).value
-    const todoIndex = document.activeElement.getAttribute('todoindex')
-    socket.emit('save-todo', {
-      todoId,
-      todoInputValue,
-      todoIndex,
-    })
-  }, stillEditingDelay)
+  const todoInput = document.getElementById(todoId)
+  const todoInputValue = todoInput.value
+  const todoIndex = todoInput.getAttribute('todoindex')
+  console.log('saving todo at index', todoIndex)
+  socket.emit('save-todo', {
+    todoId,
+    todoInputValue,
+    todoIndex,
+  })
 }
 
 /************************
@@ -171,3 +168,19 @@ socket.on('reset-all-todos', () => {
     checkboxes[i].classList.add('fa-circle')
   }
 })
+
+/************************
+   UPDATE TODO INDICES
+************************/
+function updateTodoIndices() {
+  // TODO: only update after todos after todoIndex
+  const todos = $('#todos-container')[0].children
+  const numTodos = todos.length
+  console.log('there are', numTodos, 'todos in the list')
+  for (let idx = 0; idx < numTodos; idx += 1) {
+    todoInput = $(todos[idx]).children('input')
+    todoId = todoInput.attr('id')
+    todoInput.attr('todoindex', idx)
+    saveTodo(todoId)
+  }
+}
