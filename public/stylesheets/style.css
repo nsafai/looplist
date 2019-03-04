@@ -102,6 +102,7 @@ textarea:focus,
 button:focus,
 a:focus {
     outline: none; /* to stop blue outline */
+    transition: 0.2s;
 }
 
 /****************
@@ -369,10 +370,20 @@ nav li {
   align-items: center;
 }
 
+#list-title-container, #current-list {
+  width: 100%;
+}
+
 #current-list {
   font-size: 2em;
   background-color: var(--light-grey);
-  padding: 1em 1em 1em 0;
+  padding: 1em 0 0 0;
+  margin-right: 1em;
+  margin-bottom: 0.5em;
+}
+
+#current-list:focus, .to-do-input:focus {
+  box-shadow: 0px 2px 0px 0px rgba(40, 167, 69, 0.7);
 }
 
 .reset {
@@ -391,18 +402,19 @@ nav li {
 .to-do-input {
   background-color:var(--light-grey);
   border: 0;
-  padding: 0.4em 0 0.4em 0.4em;
+  padding: 0.4em 0;
   font-size:1.2em;
   caret-color: var(--dark-green);
+  margin-right: 0.5em;
 }
 
 .to-do-input:active {
-  transition: 0.4s;
+  transition: 0.2s;
 }
 
 .to-do-input:focus {
   width: 100%;
-  transition: 0.4s;
+  transition: 0.2s;
   outline-width: 0;
 }
 
@@ -414,10 +426,12 @@ nav li {
 }
 
 .fa-circle {
+  transition: 0.3s;
   color: var(--grey);
 }
 
 .fa-check-circle {
+  transition: 0.3s;
   color: var(--green);
 }
 
@@ -523,6 +537,10 @@ footer {
     padding-bottom: 5em;
   }
 
+  #current-list {
+    margin-right: 0;
+  }
+
   .list-title-and-reset-btn {
     display: flex;
     flex-direction: column;
@@ -538,7 +556,6 @@ footer {
   /* CHECKLIST - RIGHT PANE */
   #current-list {
     width: 100%;
-    padding-right: 0.25em;
   }
 
   .checklist {

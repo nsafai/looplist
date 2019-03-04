@@ -25,18 +25,19 @@ module.exports = (io, socket) => {
     })
     todo.save((err, todoInDB) => {
       if (err) { console.error(err) }
+      // Model.findByIdAndUpdate(id, updateObj, (err, model) => {
+      // })
       Checklist.findByIdAndUpdate(currentListId, {
         $addToSet: { todoItems: todoInDB.id },
       }, (error, checklist) => {
         if (error) { console.error(error) }
         // eslint-disable-next-line no-param-reassign
-        todoInDB.index = checklist.length + 1;
+        todoInDB.index = checklist.todoItems.length + 1
         console.log(`successfully created new todo: ${todoInDB}`)
         socket.emit('create-todo', todoInDB)
       })
     })
   })
-
   /***********************
   *       SAVE TODO
   ***********************/
