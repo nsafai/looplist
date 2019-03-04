@@ -220,6 +220,7 @@ nav li {
 
 .right-nav-item:hover {
   border-bottom: 0.2em solid white;
+  margin-top: -0.2em;
 }
 
 /***************
@@ -337,6 +338,7 @@ nav li {
   right: 0;
   top: 0;
   padding: 0.6em;
+  cursor: pointer;
 }
 
 #list-container.hidden-left {
@@ -406,8 +408,10 @@ nav li {
 
 .chkbox {
   font-size:1.5em;
-  margin-right: 1em;
+  margin-right: 0.6em;
   cursor: pointer;
+  padding: 0.4em;
+  margin-left: -0.4em;
 }
 
 .fa-circle {
