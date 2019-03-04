@@ -515,6 +515,10 @@ footer {
   }
 
   /* CHECKLIST - RIGHT PANE */
+  .checklist {
+    padding-left: 1.75em;
+    padding-bottom: 5em;
+  }
 
   .list-title-and-reset-btn {
     display: flex;
@@ -529,9 +533,13 @@ footer {
 
 @media screen and (max-width: 400px) {
   /* CHECKLIST - RIGHT PANE */
+  #current-list {
+    width: 100%;
+    padding-right: 0.25em;
+  }
+
   .checklist {
-    padding: 0.5em;
-    padding-left: 1.5em;
+    padding: 0.5em 0.5em 5em 1.5em;
   }
 
   #current-list {
