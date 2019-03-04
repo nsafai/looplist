@@ -34,15 +34,13 @@ router.get('/lists', auth.requireLogin, (req, res, next) => {
             currentListTodos,
             lists,
           })
-        })
+        }).sort([['index', 1]])
       } else {
         // users who have no lists yet
         res.render('checklists/index')
       }
     }
-  }).sort([
-    ['updatedAt', -1] // change this to change how it sorts
-  ])
+  }).sort([['updatedAt', -1]])
 })
 
 module.exports = router

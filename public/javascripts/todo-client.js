@@ -36,9 +36,15 @@ socket.on('create-todo', (todo) => {
       todoid="${todo._id}" todoIndex=${todo.index} oninput="saveTodo('${todo._id}')">
     </div>`
 
-  $(`[todoindex=${todo.index - 1}]`).parent().after(todoHTML);
+  if (createSender === 'enter') {
+    $(`[todoindex=${todo.index - 1}]`).parent().after(todoHTML);
+  } else if (createSender === 'button') {
+    $('#todos-container').append(todoHTML);
+  }
   document.getElementById(todo._id).focus()
   // update todo index after todoindex
+  console.log('there are', $('#todos-container')[0].children.length, 'todos in the list')
+  console.log('need to update todos after index', todo.index)
 })
 
 // press enter button at end of line to create new todo
