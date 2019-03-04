@@ -89,20 +89,20 @@ module.exports = (io, socket) => {
   /***********************
   *    RESET ALL TODOS
   ***********************/
-
-  // RESET ALL todos
   socket.on('reset-all-todos', (checklistId) => {
-    console.log('got a request to reset all todos')
+    console.log('got a request to reset all todos on list', checklistId)
     Checklist.findById(checklistId, (err, checklist) => {
       if (err) return console.log(err)
       const todosArray = checklist.todoItems
-      todosArray.forEach((todo) => {
-        Todo.findByIdAndUpdate(todo.id, {
+      console.log('todosArray', todosArray)
+      todosArray.forEach((todoId) => {
+        Todo.findByIdAndUpdate(todoId, {
           $set: { completed: false },
         }, (error) => {
-          if (error) return console.error(err)
+          if (error) return console.error(error)
         })
       })
+    }).then(() => {
       socket.emit('reset-all-todos')
     })
   })
