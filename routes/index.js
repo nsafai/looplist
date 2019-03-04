@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
-const User = require('../models/user');
+const express = require('express');
+
+const router = express.Router();
 
 // set layout variables
-router.use(function(req, res, next) {
+router.use((req, res, next) => {
   // set website title
   res.locals.title = 'looplist: re-usable lists';
   // so we can check if user is logged in
@@ -12,10 +12,10 @@ router.use(function(req, res, next) {
 });
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res) => {
   res.render('index', {
     title: res.locals.title,
-    user: res.locals.user
+    user: res.locals.user,
   });
 });
 
