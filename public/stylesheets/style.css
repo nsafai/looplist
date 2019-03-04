@@ -312,7 +312,9 @@ nav li {
 }
 
 .list-names {
+  position: relative;
   background-color: #b0b5bb;
+  min-width: 130px;
 }
 
 .list-names ul li {
@@ -328,13 +330,35 @@ nav li {
   color: var(--dark);
 }
 
+/* HIDDEN LEFT PANE */
+#collapse-btn {
+  color: var(--dark-grey);
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0.6em;
+}
+
+#list-container.hidden-left {
+  grid-template-columns: 1.5em 1fr;
+}
+
+#left-pane.hidden-left {
+  min-width: 0;
+}
+
+#left-pane-content.hidden-left {
+  display: none;
+}
+
+
 /* RIGHT PANE CHECKLIST */
 
 .checklist {
   background-color: var(--light-grey);
   padding: 2em;
   padding-left: 3em;
-  position:relative;
+  position: relative;
 }
 
 .list-title-and-reset-btn {
@@ -500,5 +524,18 @@ footer {
 
   .reset {
     margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  /* CHECKLIST - RIGHT PANE */
+  .checklist {
+    padding: 0.5em;
+    padding-left: 1.5em;
+  }
+
+  #current-list {
+    /* padding-top: 0.5em; */
+    padding-bottom: 0.5em;
   }
 }

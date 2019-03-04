@@ -1,26 +1,29 @@
-<div class="list-container">
-  <div class="list-names">
-    <h3 class='list-title'>My Lists</h3>
-    <form action="/search" class="search-form">
-      <input type="search" placeholder="Search Lists" aria-label='Search' 
-      name='term' id="search-lists-input" autocomplete="off">
-      <button type="submit" id="search-lists-btn">
-        <i class="fas fa-search"></i>
+<div class="list-container" id="list-container">
+  <div class="list-names" id="left-pane">
+    <i class="fas fa-ellipsis-v" id="collapse-btn"></i>
+    <div id="left-pane-content">
+      <h3 class='list-title'>My Lists</h3>
+      <form action="/search" class="search-form">
+        <input type="search" placeholder="Search Lists" aria-label='Search' 
+        name='term' id="search-lists-input" autocomplete="off">
+        <button type="submit" id="search-lists-btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+      <ul id="ul-of-list-names">
+        {{#if lists}}
+          {{#each lists as |list|}}
+            <a onclick="getListItems('{{list._id}}')">
+              <li class="left-list-name" id="{{list._id}}">{{list.title}}</li>
+            </a>
+          {{/each}}
+        {{/if}}
+      </ul>
+      <button href="" class='new-list-link' onClick="createList('{{user._id}}')">
+        <i class="fas fa-plus-circle"></i>
+        <span class='underline-on-hover'> New List</span>
       </button>
-    </form>
-    <ul id="ul-of-list-names">
-      {{#if lists}}
-        {{#each lists as |list|}}
-          <a onclick="getListItems('{{list._id}}')">
-            <li class="left-list-name" id="{{list._id}}">{{list.title}}</li>
-          </a>
-        {{/each}}
-      {{/if}}
-    </ul>
-    <button href="" class='new-list-link' onClick="createList('{{user._id}}')">
-      <i class="fas fa-plus-circle"></i>
-      <span class='underline-on-hover'> New List</span>
-    </button>
+    </div>
   </div>
   <div class="checklist" id="right-pane">
     <div id="list-items-view">
@@ -76,3 +79,4 @@
 
 <script src="/javascripts/checklist-client.js"></script>
 <script src="/javascripts/todo-client.js"></script>
+<script src="/javascripts/collapse-menu.js"></script>
