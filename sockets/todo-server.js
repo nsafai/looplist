@@ -27,8 +27,10 @@ module.exports = (io, socket) => {
       if (err) { console.error(err) }
       Checklist.findByIdAndUpdate(currentListId, {
         $addToSet: { todoItems: todoInDB.id },
-      }, (error) => {
+      }, (error, checklist) => {
         if (error) { console.error(error) }
+        // eslint-disable-next-line no-param-reassign
+        todoInDB.index = checklist.length + 1;
         console.log(`successfully created new todo: ${todoInDB}`)
         socket.emit('create-todo', todoInDB)
       })

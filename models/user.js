@@ -1,7 +1,13 @@
+/* eslint-disable consistent-return */
+/* eslint-disable func-names */
+/* eslint-disable no-else-return */
+/* eslint-disable key-spacing */
+/* eslint-disable no-use-before-define */
+// eslint-disable-next-line import/newline-after-import
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 const bcrypt = require('bcryptjs');
-var uniqueValidator = require('mongoose-unique-validator');
+const uniqueValidator = require('mongoose-unique-validator');
 require('mongoose-type-email');
 
 const UserSchema = new Schema({
@@ -9,40 +15,36 @@ const UserSchema = new Schema({
   password        : { type: String, required: true },
   name            : { type: String, required: true },
   isAdmin         : { type: Boolean, default: false },
-  createdAt       : { type: Date, default: Date.now }
+  createdAt       : { type: Date, default: Date.now },
 });
 
 UserSchema.plugin(uniqueValidator, { message: 'Error, expected {PATH} to be unique.' });
 
-
-UserSchema.pre('save', function(next) {
-  // console.log('inside pre save');
+UserSchema.pre('save', function (next) {
   // before saving
-  let user = this;
-  // console.log('user details are: ' + user);
+  const user = this;
 
-  bcrypt.hash(user.password, 12, function(err, hash) {
-    // console.log('inside hash function');
+  bcrypt.hash(user.password, 12, (err, hash) => {
     if (err) return next(err);
     user.password = hash;
-    // console.log(user.password);
     next();
   })
 });
 
-UserSchema.statics.authenticate = function(email, password, next) {
+UserSchema.statics.authenticate = function (email, password, next) {
   User.findOne({
-      email: email
-    })
-    .exec(function(err, user) {
+    email,
+  })
+    .exec((err, user) => {
       if (err) {
         return next(err)
-      } else if (!user) {
-        var err = new Error('User not found.');
-        err.status = 401;
-        return next(err);
+      } if (!user) {
+        const error = new Error('User not found.');
+        error.status = 401;
+        return next(error);
       }
-      bcrypt.compare(password, user.password, function(err, result) {
+      bcrypt.compare(password, user.password, (error, result) => {
+        if (error) return next(error)
         if (result === true) {
           return next(null, user);
         } else {
