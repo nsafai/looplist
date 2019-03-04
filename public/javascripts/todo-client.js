@@ -28,7 +28,6 @@ function createTodo(sender) {
 
 // on response from server
 socket.on('create-todo', (todo) => {
-  console.log(todo.index);
   const todoHTML = `
     <div class="to-do-and-chkbox">
       <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
@@ -66,7 +65,6 @@ function saveTodo(todoId) {
   const todoInput = document.getElementById(todoId)
   const todoInputValue = todoInput.value
   const todoIndex = todoInput.getAttribute('todoindex')
-  console.log('saving todo at index', todoIndex)
   socket.emit('save-todo', {
     todoId,
     todoInputValue,
@@ -81,7 +79,7 @@ function deleteTodo(todoId) {
   clearTimeout(timeout)
   timeout = setTimeout(() => {
     socket.emit('delete-todo', todoId)
-  }, stillEditingDelay)
+  }, spamDelay)
 }
 
 // on server response
@@ -131,10 +129,9 @@ function checkbox(todoId) {
   todoCheckbox.setAttribute('onClick', `uncheckbox('${todoId}')`)
   const completed = todoCheckbox.classList.contains('fa-check-circle')
   todosToUpdate.push({ id: todoId, completed })
-  console.log(`todosToUpdate: ${todosToUpdate}`)
   timeout = setTimeout(() => {
     toggleCompletion(todosToUpdate)
-  }, stillEditingDelay)
+  }, spamDelay)
 }
 
 // triggered when un-checking a box
@@ -147,10 +144,9 @@ function uncheckbox(todoId) {
   todoCheckbox.setAttribute('onClick', `checkbox('${todoId}')`)
   const completed = todoCheckbox.classList.contains('fa-check-circle')
   todosToUpdate.push({ id: todoId, completed })
-  console.log(`todosToUpdate: ${todosToUpdate}`)
   timeout = setTimeout(() => {
     toggleCompletion(todosToUpdate)
-  }, stillEditingDelay)
+  }, spamDelay)
 }
 
 /************************
@@ -176,7 +172,6 @@ function updateTodoIndices() {
   // TODO: only update after todos after todoIndex
   const todos = $('#todos-container')[0].children
   const numTodos = todos.length
-  console.log('there are', numTodos, 'todos in the list')
   for (let idx = 0; idx < numTodos; idx += 1) {
     todoInput = $(todos[idx]).children('input')
     todoId = todoInput.attr('id')

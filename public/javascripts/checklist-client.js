@@ -10,7 +10,7 @@ const socket = io.connect()
 
 // only fire requests once every 100 ms, timeout resets on every edit
 let timeout = null
-const stillEditingDelay = 100
+const spamDelay = 100
 
 // set first list as selected by default
 $('#ul-of-list-names li:first').addClass('selected-list')
@@ -37,7 +37,6 @@ function getListItems(listId) {
 }
 
 socket.on('get-list', (listData) => {
-  console.log(listData)
   const { currentList, currentListTodos } = listData
   listTitleContainer.empty()
   listTitleContainer.append(`
@@ -77,7 +76,6 @@ socket.on('get-list', (listData) => {
 ************************/
 
 function createList(currentUserId) {
-  console.log('user trying to create list', currentUserId)
   // send request to server
   socket.emit('new-list', currentUserId)
 }
@@ -105,7 +103,6 @@ function deleteList(listId) {
 
 // on response from server
 socket.on('delete-list', (listId) => {
-  console.log('list', listId, ' was successfully deleted')
   window.location = '/lists'
 })
 
@@ -124,7 +121,7 @@ function saveListName(currentListId) {
       currentListId,
       newListName: listNameInputValue,
     })
-  }, stillEditingDelay)
+  }, spamDelay)
 }
 
 /************************
@@ -133,7 +130,6 @@ function saveListName(currentListId) {
 function search() {
   const currentUserId = $('#user-id').val()
   const searchTerm = $('#search-lists-input').val()
-  console.log('searching for', searchTerm)
   socket.emit('search', {
     searchTerm,
     currentUserId,
@@ -179,7 +175,7 @@ socket.on('search', (results) => {
 $('#search-lists-input').on('input', (event) => {
   timeout = setTimeout(() => {
     search()
-  }, stillEditingDelay)
+  }, spamDelay)
 })
 // SEARCH BTN EVENT LISTENER
 $('#search-lists-btn').click((event) => {
