@@ -7,37 +7,52 @@
 // socket setup
 // const socket = io.connect()
 
+let createSender = null; // tells us whether button or enter key sent create request
 /************************
      CREATE TO-DO'S
 ************************/
-function createTodo() {
+function createTodo(sender) {
   const currentListId = document.getElementById('current-list').getAttribute('listid')
-  socket.emit('create-todo', currentListId)
+  const activeInput = $(':focus')
+  let todoIndex = null;
+  if (sender.type === 'keyup') {
+    // pressed enter and wants todo right after activeInput
+    todoIndex = parseInt(activeInput.attr('todoindex'), 10) + 1
+  } else if (sender.type === 'click') {
+    // pressed new button and wants todo at bottom
+    todoIndex = $('#todos-container')[0].children.length
+  }
+  console.log(todoIndex);
+  socket.emit('create-todo', { currentListId, todoIndex })
 }
 
 // on response from server
 socket.on('create-todo', (todo) => {
-  const todoId = todo._id;
+  console.log(todo.index);
   const todoHTML = `
     <div class="to-do-and-chkbox">
       <a class="chkbox far fa-circle" href="" tabindex="-1"></a>
-      <input class='to-do-input' value="" id="${todoId}" autocomplete="off"
-      todoid="${todoId}" todoIndex=${todo.index} oninput="saveTodo('${todoId}')">
+      <input class='to-do-input' value="" id="${todo._id}" autocomplete="off"
+      todoid="${todo._id}" todoIndex=${todo.index} oninput="saveTodo('${todo._id}')">
     </div>`
-  todosContainer.append(todoHTML)
-  document.getElementById(todoId).focus()
+
+  $(`[todoindex=${todo.index - 1}]`).parent().after(todoHTML);
+  document.getElementById(todo._id).focus()
+  // update todo index after todoindex
 })
 
 // press enter button at end of line to create new todo
 todosContainer.on('keyup', (e) => {
   if (e.keyCode === 13) {
-    createTodo()
+    createSender = 'enter'
+    createTodo(e)
   }
 })
 
 // clicked [new todo] button
-$('.new-todo-link').on('click', () => {
-  createTodo()
+$('.new-todo-link').on('click', (e) => {
+  createSender = 'button'
+  createTodo(e)
 })
 
 /************************
@@ -47,9 +62,11 @@ function saveTodo(todoId) {
   clearTimeout(timeout)
   timeout = setTimeout(() => {
     const todoInputValue = document.getElementById(todoId).value
+    const todoIndex = document.activeElement.getAttribute('todoindex')
     socket.emit('save-todo', {
       todoId,
       todoInputValue,
+      todoIndex,
     })
   }, stillEditingDelay)
 }
@@ -67,8 +84,7 @@ function deleteTodo(todoId) {
 // on server response
 socket.on('delete-todo', (todoId) => {
   // bring text cursor to previous input
-  const prevInput = $(`#${todoId}`).parent().prev().children('input')
-    .first()
+  const prevInput = $(`#${todoId}`).parent().prev().children('input').first()
   prevInput.focus()
   //  clear the value and then reset to bring cursor to end of input
   const tmpStr = prevInput.val()

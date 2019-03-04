@@ -17,36 +17,35 @@ module.exports = (io, socket) => {
   /***********************
   *     CREATE TODO
   ***********************/
-  socket.on('create-todo', (currentListId) => {
+  socket.on('create-todo', ({ currentListId, todoIndex }) => {
     console.log(`got a create todo request for checklistId: ${currentListId}`)
-    const todo = new Todo({
+    const newTodo = new Todo({
       name: '',
       checklistId: currentListId,
     })
-    todo.save((err, todoInDB) => {
+    newTodo.save((err, todo) => {
       if (err) { console.error(err) }
       // Model.findByIdAndUpdate(id, updateObj, (err, model) => {
       // })
       Checklist.findByIdAndUpdate(currentListId, {
-        $addToSet: { todoItems: todoInDB.id },
+        $addToSet: { todoItems: todo.id },
       }, (error, checklist) => {
         if (error) { console.error(error) }
         // eslint-disable-next-line no-param-reassign
-        todoInDB.index = checklist.todoItems.length + 1
-        console.log(`successfully created new todo: ${todoInDB}`)
-        socket.emit('create-todo', todoInDB)
+        todo.index = todoIndex
+        console.log(`successfully created new todo: ${todo}`)
+        socket.emit('create-todo', todo)
       })
     })
   })
   /***********************
   *       SAVE TODO
   ***********************/
-  socket.on('save-todo', (todoData) => {
-    const { todoId, todoInputValue } = todoData
+  socket.on('save-todo', ({ todoId, todoInputValue, todoIndex }) => {
     console.log(`got a save request for todo.id: ${todoId}`)
     Todo.findByIdAndUpdate(
       todoId, {
-        $set: { name: todoInputValue },
+        $set: { name: todoInputValue, index: todoIndex },
       }, (err) => {
         if (err) return console.error(err)
       },
