@@ -16,20 +16,18 @@ router.get('/login', (req, res) => {
 
 // POST signup
 router.post('/signup', (req, res, next) => {
-  // console.log('inside signup route')
   const user = new User(req.body)
-  // console.log('user details at /signup are: ' + user)
-  user.save().then((savedUser) => {
-    // console.log('inside save on /signup')
-    console.log(req)
-    req.session.user = savedUser
-    // console.log('req session user is: ' + req.session.user)
-    res.redirect('/lists')
-  }).catch(() => {
-    const nextError = new Error('Email address already taken. Did you mean to login?')
-    nextError.status = 401
-    return next(nextError)
-  })
+
+  user.save()
+      .then((savedUser) => {
+        req.session.user = savedUser
+        res.redirect('/lists')
+      })
+      .catch(() => {
+        const nextError = new Error('Email address already taken. Did you mean to login?')
+        nextError.status = 401
+        return next(nextError)
+      })
 })
 
 // POST login

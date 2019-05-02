@@ -32,13 +32,13 @@ UserSchema.pre('save', function (next) {
 })
 
 UserSchema.statics.authenticate = function (email, password, next) {
-  User.findOne({
-    email,
-  })
+  User
+    .findOne({
+      email,
+    })
     .exec((err, user) => {
-      if (err) {
-        return next(err)
-      } if (!user) {
+      if (err) return next(err)
+      if (!user) {
         const error = new Error('User not found.')
         error.status = 401
         return next(error)
