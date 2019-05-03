@@ -8,6 +8,8 @@ services:
       - "3000:3000"
     links:
       - mongo
+    environment:
+      WAIT_HOSTS: mongo:27017
   mongo:
     container_name: mongo
     image: mongo

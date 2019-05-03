@@ -18,8 +18,9 @@ const server = require('http').Server(app)
 // Database setup
 const mongoose = require('mongoose')
 
-const mlabURI = `mongodb://${DB_USER}:${DB_PASSWORD}@${MLAB_URI}`
-mongoose.connect(process.env.MONGODB_URI || mlabURI, { useNewUrlParser: true })
+// const mlabURI = `mongodb://${DB_USER}:${DB_PASSWORD}@${MLAB_URI}`
+// mongoose.connect(process.env.MONGODB_URI || mlabURI, { useNewUrlParser: true })
+mongoose.connect('mongodb://mongo:27017');
 mongoose.set('useCreateIndex', true) // silencing a deprecated feature warning that's a bug per https://github.com/Automattic/mongoose/issues/6890
 mongoose.Promise = global.Promise
 const db = mongoose.connection
