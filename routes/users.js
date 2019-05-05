@@ -23,17 +23,15 @@ router.post('/signup', (req, res, next) => {
     .then((savedUser) => {
       req.session.user = savedUser
       if (req.header('Content-Type') === 'application/json') {
-        res.send(req.session)
-      } else {
-        res.redirect('/lists')
+        return res.send(req.session)
       }
+      return res.redirect('/lists')
     })
     .catch((err) => {
       if (req.header('Content-Type') === 'application/json') {
-        res.send(err)
-      } else {
-        return next(err)
+        return res.send(err)
       }
+      return next(err)
     })
 })
 
@@ -42,18 +40,16 @@ router.post('/login', (req, res, next) => {
   User.authenticate(req.body.email, req.body.password, (err, user) => {
     if (err || !user) {
       if (req.header('Content-Type') === 'application/json') {
-        res.send(err)
-      } else {
-        return next(err)
+        return res.send(err)
       }
+      return next(err)
     }
-    // user authenticated correctly
+    // else user authenticated correctly
     req.session.user = user
     if (req.header('Content-Type') === 'application/json') {
-      res.send(req.session)
-    } else {
-      return res.redirect('/lists')
+      return res.send(req.session)
     }
+    return res.redirect('/lists')
   })
 })
 
@@ -67,4 +63,4 @@ router.get('/logout', (req, res, next) => {
   return res.redirect('/')
 })
 
-module.exports = router
+module.exports = router;
