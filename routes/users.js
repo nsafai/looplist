@@ -18,29 +18,42 @@ router.get('/login', (req, res) => {
 router.post('/signup', (req, res, next) => {
   const user = new User(req.body)
 
-  user.save()
-      .then((savedUser) => {
-        req.session.user = savedUser
+  user
+    .save()
+    .then((savedUser) => {
+      req.session.user = savedUser
+      if (req.header('Content-Type') === 'application/json') {
+        res.send(req.session)
+      } else {
         res.redirect('/lists')
-      })
-      .catch(() => {
-        const nextError = new Error('Email address already taken. Did you mean to login?')
-        nextError.status = 401
-        return next(nextError)
-      })
+      }
+    })
+    .catch((err) => {
+      if (req.header('Content-Type') === 'application/json') {
+        res.send(err)
+      } else {
+        return next(err)
+      }
+    })
 })
 
 // POST login
 router.post('/login', (req, res, next) => {
   User.authenticate(req.body.email, req.body.password, (err, user) => {
     if (err || !user) {
-      const nextError = new Error('Email or password incorrect')
-      nextError.status = 401
-      return next(nextError)
+      if (req.header('Content-Type') === 'application/json') {
+        res.send(err)
+      } else {
+        return next(err)
+      }
     }
     // user authenticated correctly
     req.session.user = user
-    return res.redirect('/lists')
+    if (req.header('Content-Type') === 'application/json') {
+      res.send(req.session)
+    } else {
+      return res.redirect('/lists')
+    }
   })
 })
 

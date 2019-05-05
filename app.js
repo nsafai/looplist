@@ -88,7 +88,7 @@ app.use((err, req, res, next) => {
 })
 
 // for heroku
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8080
 app.set('port', port)
 
 server.listen(app.get('port'))
