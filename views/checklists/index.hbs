@@ -68,7 +68,7 @@
           <h4>This note does not belong to you. Are you logged into the correct account?</h4>
         {{/eq}}
       {{else}}
-        <button href="" class='butn butn-1' id="first-list-butn" onClick="createList()">
+        <button href="" class='butn butn-1' id="first-list-butn" onClick="createList('{{user._id}}')">
           <span class='underline-on-hover'> New List</span>
         </button>
       {{/if}}

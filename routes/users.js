@@ -23,7 +23,7 @@ router.post('/signup', (req, res, next) => {
     .then((savedUser) => {
       req.session.user = savedUser
       if (req.header('Content-Type') === 'application/json') {
-        return res.send(req.session)
+        return res.send({ expires: req.session.cookie.expires, user: savedUser.id })
       }
       return res.redirect('/lists')
     })
@@ -47,7 +47,7 @@ router.post('/login', (req, res, next) => {
     // else user authenticated correctly
     req.session.user = user
     if (req.header('Content-Type') === 'application/json') {
-      return res.send(req.session)
+      return res.send({ expires: req.session.cookie.expires, user: user.id })
     }
     return res.redirect('/lists')
   })
