@@ -16,34 +16,38 @@ router.get('/lists', auth.requireLogin, (req, res, next) => {
     ownerUserId: res.locals.user._id
   }, (err, lists) => {
     if (err) {
-      console.error(err)
-    } else {
-      const currentList = lists[0] // default
-
-      if (typeof currentList !== 'undefined') {
-        console.log('currentList not empty!')
-        Todo.find({
+      if (req.header('Content-Type') === 'application/json') {
+        return res.send(err)
+      }
+      return console.error(err)
+    }
+    // if no err, check if json
+    if (req.header('Content-Type') === 'application/json') {
+      return res.send({ lists, user: res.locals.user._id })
+    }
+    
+    const currentList = lists[0] // default
+    if (typeof currentList !== 'undefined') {
+      console.log('currentList not empty!')
+      Todo
+        .find({
           '_id': {
             $in: currentList.todoItems
           }
         }, (error, currentListTodos) => {
           if (error) next(error)
-
-          if (req.header('Content-Type') === 'application/json') {
-            return res.send({ lists, user: res.locals.user._id })
-          }
-
           return res.render('checklists/index', {
             currentList,
             currentListTodos,
             lists,
           })
-        }).sort([['index', 1]])
-      } else {
-        // users who have no lists yet
-        return res.render('checklists/index')
-      }
+        })
+        .sort([['index', 1]])
+    } else {
+      // users who have no lists yet
+      return res.render('checklists/index')
     }
+    
   }).sort([['updatedAt', -1]])
 })
 
