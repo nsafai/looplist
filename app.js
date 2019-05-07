@@ -56,7 +56,7 @@ const session = require('express-session')
 
 app.use(session({
   secret: process.env.SESSION_CODE,
-  cookie: { maxAge: 3600000 },
+  cookie: { maxAge: 2592000000 }, // 30 * 24 * 60 * 60 * 1000; // 30 days
   resave: true,
   saveUninitialized: true,
 }))

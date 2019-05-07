@@ -25,8 +25,9 @@ router.get('/lists', auth.requireLogin, (req, res, next) => {
     if (req.header('Content-Type') === 'application/json') {
       return res.send({ lists, user: res.locals.user._id })
     }
-    
+
     const currentList = lists[0] // default
+    // If user has at least 1 list
     if (typeof currentList !== 'undefined') {
       console.log('currentList not empty!')
       Todo
@@ -35,7 +36,7 @@ router.get('/lists', auth.requireLogin, (req, res, next) => {
             $in: currentList.todoItems
           }
         }, (error, currentListTodos) => {
-          if (error) next(error)
+          if (error) return next(error)
           return res.render('checklists/index', {
             currentList,
             currentListTodos,
@@ -47,7 +48,6 @@ router.get('/lists', auth.requireLogin, (req, res, next) => {
       // users who have no lists yet
       return res.render('checklists/index')
     }
-    
   }).sort([['updatedAt', -1]])
 })
 
