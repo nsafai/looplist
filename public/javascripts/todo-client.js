@@ -109,45 +109,36 @@ $('.to-do-ul').on('keydown', (e) => {
 /************************
  SELECT/DESELECT CHECKBOX
 ************************/
-let todosToUpdate = []
-
-function toggleCompletion(todosToUpdate) {
-  socket.emit('toggle-todo', todosToUpdate)
-}
-
-// on server response
-socket.on('toggle-todo', () => {
-  todosToUpdate = []
-})
 
 // triggered when checking a box
 function checkbox(todoId) {
-  clearTimeout(timeout)
   const todoCheckbox = document.getElementById(`chk-${todoId}`)
-  todoCheckbox.classList.remove('fa-circle')
-  todoCheckbox.classList.add('fa-check-circle')
   todoCheckbox.setAttribute('onClick', `uncheckbox('${todoId}')`)
-  const completed = todoCheckbox.classList.contains('fa-check-circle')
-  todosToUpdate.push({ id: todoId, completed })
-  timeout = setTimeout(() => {
-    toggleCompletion(todosToUpdate)
-  }, spamDelay)
+  socket.emit('toggle-todo', { todoId, completed: true })
 }
 
 // triggered when un-checking a box
 function uncheckbox(todoId) {
-  clearTimeout(timeout)
   const todoCheckbox = document.getElementById(`chk-${todoId}`)
-  // add that id to an array
-  todoCheckbox.classList.remove('fa-check-circle')
-  todoCheckbox.classList.add('fa-circle')
   todoCheckbox.setAttribute('onClick', `checkbox('${todoId}')`)
-  const completed = todoCheckbox.classList.contains('fa-check-circle')
-  todosToUpdate.push({ id: todoId, completed })
-  timeout = setTimeout(() => {
-    toggleCompletion(todosToUpdate)
-  }, spamDelay)
+  socket.emit('toggle-todo', { todoId, completed: false })
 }
+
+// on server response
+socket.on('toggle-todo', (updatedTodo) => {
+  console.log('ON CLIENT SIDE WE SEE:', updatedTodo)
+  const { _id, completed } = updatedTodo
+  if (updatedTodo) {
+    const todoCheckbox = document.getElementById(`chk-${_id}`)
+    if (completed === true) {
+      todoCheckbox.classList.remove('fa-circle')
+      todoCheckbox.classList.add('fa-check-circle')
+    } else {
+      todoCheckbox.classList.remove('fa-check-circle')
+      todoCheckbox.classList.add('fa-circle')
+    }
+  }
+})
 
 /************************
    RESET ALL CHECKBOXES
