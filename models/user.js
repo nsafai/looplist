@@ -48,9 +48,9 @@ UserSchema.statics.authenticate = function (email, password, next) {
         if (result === true) {
           return next(null, user)
         } else if (result === false) {
-          const error = new Error('Invalid email or password.')
-          error.status = 403
-          return next(error)
+          const loginErr = new Error('Invalid email or password.')
+          loginErr.status = 403
+          return next(loginErr)
         }
       })
     })
