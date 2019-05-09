@@ -103,6 +103,8 @@ module.exports = (io, socket) => {
       })
     }).then(() => {
       socket.emit('reset-all-todos')
+    }).catch((err) => {
+      socket.emit('reset-all-todo-error', (err))
     })
   })
 }
